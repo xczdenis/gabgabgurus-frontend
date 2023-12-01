@@ -1,14 +1,13 @@
-import { Stack } from '@mui/material';
 import { LogoButton } from '@/components/LogoButton';
+import { NotificationsButton } from '@/components/NotificationsButton';
+import { ThemeSwitcher } from '@/components/ThemeSwitcher';
+import { Stack } from '@mui/material';
 import TopNavContainer from './TopNavContainer';
 import TopNavLoginButton from './TopNavLoginButton';
-import { ThemeSwitcher } from '@/components/ThemeSwitcher';
-import { NotificationsButton } from '@/components/NotificationsButton';
-// import { NotificationsButton } from '@/components/NotificationsButton';
 
 const TOP_NAV_HEIGHT = 64;
 
-const TopNav: React.FC = () => {
+const TopNav = () => {
   return (
     <TopNavContainer>
       <Stack direction="row" spacing={2} sx={{ height: TOP_NAV_HEIGHT }}>

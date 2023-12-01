@@ -1,9 +1,9 @@
-import { Hero } from '@/components/Hero';
-import { TProps } from './types';
 import { BaseContainer } from '@/components/BaseContainer';
+import { Hero } from '@/components/Hero';
 import { Box, Divider } from '@mui/material';
+import { TProps } from './types';
 
-const HeroLayout: React.FC<TProps> = (props) => {
+const HeroLayout = (props: TProps) => {
   const { children, heroProps, containerProps } = props;
 
   return (

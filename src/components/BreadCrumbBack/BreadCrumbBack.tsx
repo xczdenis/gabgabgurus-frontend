@@ -7,7 +7,7 @@ import { useCallback } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
 import { TProps } from './types';
 
-const BreadCrumbBack: React.FC<TProps> = (props) => {
+const BreadCrumbBack = (props: TProps) => {
   const { text } = props;
   const router = useRouter();
 

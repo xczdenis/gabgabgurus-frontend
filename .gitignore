@@ -2,6 +2,7 @@
 .vscode
 .fleet
 .local
+certbot/
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
@@ -30,8 +31,8 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-.env*
-!.env.example
+.env.local
+.env.*.local
 
 # vercel
 .vercel

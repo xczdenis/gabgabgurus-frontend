@@ -2,10 +2,10 @@
 
 import { Logo } from '@/components/Logo';
 import { cmpInfo } from '@/config';
+import { useIsBreakpointUp } from '@/lib/hooks/use-is-breakpoint-up';
 import { urls } from '@/urls';
 import { Box, Stack } from '@mui/material';
 import NextLink from 'next/link';
-import { useIsBreakpointUp } from '@/lib/hooks/use-is-breakpoint-up';
 
 const LogoButton = () => {
   const mdUp = useIsBreakpointUp('md');

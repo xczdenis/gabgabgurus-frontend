@@ -1,8 +1,8 @@
 'use client';
 
-import NextLink from 'next/link';
-import { Box, Button, Container, Typography } from '@mui/material';
 import { urls } from '@/urls';
+import { Box, Button, Container, Typography } from '@mui/material';
+import NextLink from 'next/link';
 
 const Page = () => {
   return (

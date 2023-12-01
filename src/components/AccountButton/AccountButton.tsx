@@ -1,11 +1,11 @@
 'use client';
 
-import { useCallback, useRef, useState } from 'react';
-import { Avatar, Box, ButtonBase } from '@mui/material';
-import { AccountPopover } from './AccountPopover';
 import { useAuth } from '@/lib/hooks/use-auth';
+import { Avatar, Box, ButtonBase } from '@mui/material';
+import { useCallback, useRef, useState } from 'react';
+import { AccountPopover } from './AccountPopover';
 
-const AccountButton: React.FC = () => {
+const AccountButton = () => {
   const { user } = useAuth();
   const anchorRef = useRef<HTMLDivElement | null>(null);
   const [openPopover, setOpenPopover] = useState<boolean>(false);

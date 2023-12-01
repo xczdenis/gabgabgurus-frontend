@@ -1,12 +1,12 @@
-import Grid from '@mui/material/Unstable_Grid2';
-import { Stack } from '@mui/material';
-import { TProps } from './types';
-import { UserListCard } from '../UserListCard';
 import { BasePagination } from '@/components/BasePagination';
+import { Stack } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
+import { UserListCard } from '../UserListCard';
+import { TProps } from './types';
 
-const UsersList: React.FC<TProps> = (props) => {
+const UsersList = (props: TProps) => {
   const { usersPagination } = props;
-  const { current: page, results: users, count } = usersPagination;
+  const { current: page = 1, results: users = [], pages = 1 } = usersPagination;
 
   return (
     <>
@@ -17,7 +17,7 @@ const UsersList: React.FC<TProps> = (props) => {
           </Grid>
         ))}
       </Stack>
-      <BasePagination page={page} count={count} />
+      <BasePagination currentPage={page} totalPages={pages} />
     </>
   );
 };

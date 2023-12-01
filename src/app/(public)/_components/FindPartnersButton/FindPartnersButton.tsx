@@ -1,8 +1,8 @@
 'use client';
 
+import { urls } from '@/urls';
 import { Button, Theme } from '@mui/material';
 import NextLink from 'next/link';
-import { urls } from '@/urls';
 import { BsFillEyeFill } from 'react-icons/bs';
 
 const getButtonStylesByTheme = (theme: Theme) => {

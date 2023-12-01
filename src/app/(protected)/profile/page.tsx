@@ -1,7 +1,5 @@
-import { Profile } from '@/app/(protected)/profile/_components/Profile';
-import { userService } from '@/services';
+import { Profile } from './_components/Profile';
 
-export default async function Page() {
-  const profile = await userService.getUserProfile();
-  return <Profile profile={profile} />;
+export default function Page() {
+  return <Profile />;
 }

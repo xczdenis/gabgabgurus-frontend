@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
 
-const BreadCrumbs: React.FC = () => {
+const BreadCrumbs = () => {
   const router = useRouter();
 
   const handleClick = useCallback(() => {

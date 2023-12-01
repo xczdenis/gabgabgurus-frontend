@@ -10,7 +10,7 @@ const stylesMap: Record<string, SxProps> = {
   },
 };
 
-const BaseContainer: React.FC<TProps> = (props) => {
+const BaseContainer = (props: TProps) => {
   const { children, variant = 'default', sx, ...rest } = props;
 
   const variantSx = stylesMap[variant] || {};

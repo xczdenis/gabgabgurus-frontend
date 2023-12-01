@@ -1,8 +1,8 @@
 'use client';
 
+import { PaletteMode } from '@/config';
 import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
-import { PaletteMode } from '@/config';
 
 const ToggleButton = styled(Switch)(({ theme }) => {
   return {

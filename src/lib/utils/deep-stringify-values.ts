@@ -4,7 +4,7 @@ type TDeepStringify<T> = T extends null | string | number | boolean
   ? TDeepStringify<U>[]
   : { [K in keyof T]: TDeepStringify<T[K]> };
 
-export function deepStringifyValues<T>(obj: T): TDeepStringify<T> {
+export const deepStringifyValues = <T>(obj: T): TDeepStringify<T> => {
   if (obj === null || typeof obj !== 'object') {
     return String(obj) as TDeepStringify<T>;
   }
@@ -20,4 +20,4 @@ export function deepStringifyValues<T>(obj: T): TDeepStringify<T> {
     },
     {} as Record<string, unknown>
   ) as unknown as TDeepStringify<T>;
-}
+};

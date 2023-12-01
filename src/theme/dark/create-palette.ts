@@ -1,7 +1,7 @@
 import { PaletteMode } from '@/config';
+import { getPrimaryColor } from '@/lib/utils/get-primary-color';
 import { error, info, neutral, success, warning } from '@/theme/colors';
 import { alpha, PaletteOptions } from '@mui/material/styles';
-import { getPrimary } from '../utils';
 
 export const createPalette = (paletteOptions: PaletteOptions) => {
   const { colorPreset, contrast } = paletteOptions;
@@ -24,7 +24,7 @@ export const createPalette = (paletteOptions: PaletteOptions) => {
     info,
     mode: PaletteMode.Dark,
     neutral,
-    primary: getPrimary(colorPreset),
+    primary: getPrimaryColor(colorPreset),
     success,
     text: {
       primary: '#EDF2F7',

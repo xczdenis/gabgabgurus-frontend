@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import { TProps } from './types';
 
-const UserAboutMe: React.FC<TProps> = (props) => {
+const UserAboutMe = (props: TProps) => {
   const { text } = props;
   return (
     <>

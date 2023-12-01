@@ -1,5 +1,5 @@
-import { Box, SxProps, Typography } from '@mui/material';
 import { BaseContainer } from '@/components/BaseContainer';
+import { Box, SxProps, Typography } from '@mui/material';
 import { TProps } from './types';
 
 const componentSx: SxProps = {
@@ -10,7 +10,7 @@ const componentSx: SxProps = {
   pb: 4,
 };
 
-const Hero: React.FC<TProps> = (props) => {
+const Hero = (props: TProps) => {
   const { text, highlightedText, sx, ...rest } = props;
 
   return (

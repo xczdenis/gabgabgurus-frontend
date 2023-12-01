@@ -1,7 +1,7 @@
-import { inputLabelClasses, tableCellClasses } from '@mui/material';
 import { CheckboxCheckedIcon } from '@/components/CheckboxCheckedIcon';
 import { CheckboxIcon } from '@/components/CheckboxIcon';
 import { CheckboxIntermediateIcon } from '@/components/CheckboxIntermediateIcon';
+import { inputLabelClasses, tableCellClasses } from '@mui/material';
 import { Components } from '@mui/material/styles/components';
 
 export const createComponents = (): Components => {

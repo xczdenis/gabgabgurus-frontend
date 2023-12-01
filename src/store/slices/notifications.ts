@@ -1,30 +1,25 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TNotification } from '@/lib/types/notification';
 import { TDefaultId } from '@/lib/types/common';
+import { TNotification, TNotificationPagination } from '@/lib/types/notification';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface INotificationsState {
-  isInitialized: boolean;
+  unreadCount: number;
   notifications: TNotification[];
 }
 
 const initialState: INotificationsState = {
-  isInitialized: false,
+  unreadCount: 0,
   notifications: [],
 };
 
 const reducers = {
-  setNotifications(state: INotificationsState, action: PayloadAction<TNotification[]>) {
-    state.isInitialized = true;
-    state.notifications = action.payload;
+  setNotifications(state: INotificationsState, action: PayloadAction<TNotificationPagination>) {
+    state.notifications = action.payload.results;
+    state.unreadCount = action.payload.count;
   },
   removeNotifications(state: INotificationsState) {
     state.notifications = [];
-  },
-  markOneAsRead(state: INotificationsState, action: PayloadAction<TDefaultId>) {
-    const index = state.notifications.findIndex((notification) => notification.id === action.payload);
-    if (index !== -1) {
-      state.notifications[index].read = true;
-    }
+    state.unreadCount = 0;
   },
   removeOne(state: INotificationsState, action: PayloadAction<TDefaultId>) {
     const index = state.notifications.findIndex((notification) => notification.id === action.payload);
@@ -32,6 +27,16 @@ const reducers = {
     if (index !== -1) {
       state.notifications.splice(index, 1);
     }
+  },
+  pushNotification(state: INotificationsState, action: PayloadAction<TNotification>) {
+    state.notifications.unshift(action.payload);
+    state.unreadCount += 1;
+  },
+  increaseUnreadCount(state: INotificationsState) {
+    state.unreadCount += 1;
+  },
+  decreaseUnreadCount(state: INotificationsState) {
+    state.unreadCount -= 1;
   },
 };
 

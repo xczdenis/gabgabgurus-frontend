@@ -1,12 +1,14 @@
 import { urls } from '@/urls';
+import { TFooterSectionsItem } from './types';
 
-export const sections = [
+export const sections: TFooterSectionsItem[] = [
   {
     title: 'Menu',
     items: [
       {
         title: 'Search language partners',
         path: urls.search,
+        auth: false,
       },
     ],
   },
@@ -16,15 +18,12 @@ export const sections = [
       {
         title: 'My profile',
         path: urls.profile,
+        auth: true,
       },
-    ],
-  },
-  {
-    title: 'Legal',
-    items: [
       {
-        title: 'Terms & Conditions',
-        path: '#',
+        title: 'My messages',
+        path: urls.chats.list,
+        auth: true,
       },
     ],
   },

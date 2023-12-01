@@ -4,7 +4,7 @@ function toCamelCase(str: string): string {
   return str.replace(/(_\w)/g, (matches) => matches[1].toUpperCase());
 }
 
-export function convertKeysSnakeToCamel<T>(obj: T): TObjectKeysSnakeToCamel<T> {
+export const convertKeysSnakeToCamel = <T>(obj: T): TObjectKeysSnakeToCamel<T> => {
   if (Array.isArray(obj)) {
     return obj.map(convertKeysSnakeToCamel) as TObjectKeysSnakeToCamel<T>;
   } else if (obj !== null && typeof obj === 'object') {
@@ -17,4 +17,4 @@ export function convertKeysSnakeToCamel<T>(obj: T): TObjectKeysSnakeToCamel<T> {
   } else {
     return obj as TObjectKeysSnakeToCamel<T>;
   }
-}
+};

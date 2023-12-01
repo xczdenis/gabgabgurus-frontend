@@ -1,7 +1,7 @@
 import { Box, Container, Stack, Typography } from '@mui/material';
-import { FindPartnersButton } from '@/app/(public)/_components/FindPartnersButton';
+import { FindPartnersButton } from '../FindPartnersButton';
 
-const Hero: React.FC = () => {
+const Hero = () => {
   return (
     <Box
       sx={{

@@ -1,11 +1,8 @@
 import { Card, CardContent, Stack, Typography, Unstable_Grid2 as Grid } from '@mui/material';
-import { CropAvatar } from '../CropAvatar';
 import { BasicDetailsForm } from '../BasicDetailsForm';
-import { TProps } from './types';
+import { CropAvatar } from '../CropAvatar';
 
-const BasicDetails: React.FC<TProps> = (props) => {
-  const { profile } = props;
-
+const BasicDetails = () => {
   return (
     <Card>
       <CardContent>
@@ -16,7 +13,7 @@ const BasicDetails: React.FC<TProps> = (props) => {
           <Grid xs={12} md={8}>
             <Stack spacing={3}>
               <CropAvatar />
-              <BasicDetailsForm profile={profile} />
+              <BasicDetailsForm />
             </Stack>
           </Grid>
         </Grid>

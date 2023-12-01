@@ -1,23 +1,87 @@
 'use client';
 
-import { useRef, useState } from 'react';
-import { Avatar, Box, Button, Dialog, DialogActions, DialogContent, Stack, SvgIcon, Typography } from '@mui/material';
+import { useIam } from '@/lib/hooks/swr/use-iam';
+import { useAuth } from '@/lib/hooks/use-auth';
+import { showToastError } from '@/lib/utils/show-toast-error';
+import { showToastSuccess } from '@/lib/utils/show-toast-success';
+import { userService } from '@/modules/services';
+import {
+  Avatar,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  IconButton,
+  Stack,
+  SvgIcon,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { alpha } from '@mui/material/styles';
-import CreditCard01 from '@/lib/icons/untitled-ui/duocolor/CreditCard01';
-import 'cropperjs/dist/cropper.css';
-import { Cropper } from 'react-cropper';
-import { MdAccountCircle } from 'react-icons/md';
 import CropperJs from 'cropperjs';
+import 'cropperjs/dist/cropper.css';
+import { useRef, useState } from 'react';
+import { Cropper } from 'react-cropper';
+import { AiOutlineRotateLeft, AiOutlineRotateRight } from 'react-icons/ai';
+import { BsSave } from 'react-icons/bs';
+import { FcCancel } from 'react-icons/fc';
+import { HiOutlineCamera } from 'react-icons/hi';
+import { HiOutlinePhoto } from 'react-icons/hi2';
+import { RiDeleteBin2Fill } from 'react-icons/ri';
 
 interface IExtendedImageElement extends HTMLImageElement {
   cropper?: CropperJs;
 }
 
-const CropAvatar: React.FC = () => {
+const CropAvatar = () => {
+  const { user } = useAuth();
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [croppedImage, setCroppedImage] = useState<string | null>(null);
   const [imageSrc, setImageSrc] = useState<string | ArrayBuffer | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const cropperRef = useRef<IExtendedImageElement>(null);
+  const { revalidate } = useIam();
+
+  const saveAvatar = () => {
+    setIsSubmitting(true);
+    if (croppedImage) {
+      const formData = new FormData();
+      formData.append('avatar', croppedImage);
+
+      userService
+        .updateAvatar(formData)
+        .then(() => {
+          setIsSubmitting(false);
+          revalidate().then(() => showToastSuccess());
+        })
+        .catch((error) => {
+          showToastError(error.message);
+        })
+        .finally(() => {
+          setIsSubmitting(false);
+        });
+    } else {
+      setIsSubmitting(false);
+    }
+  };
+
+  const deleteAvatar = () => {
+    setIsSubmitting(true);
+    userService
+      .deleteAvatar()
+      .then(() => {
+        setIsSubmitting(false);
+        setCroppedImage(null);
+        revalidate().then(() => showToastSuccess());
+      })
+      .catch((error) => {
+        showToastError(error.message);
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
+  };
 
   const rotateImage = (degree: number): void => {
     const imageElement = cropperRef?.current;
@@ -44,7 +108,7 @@ const CropAvatar: React.FC = () => {
     const imageElement = cropperRef?.current;
     const cropper = imageElement?.cropper;
     if (cropper?.getCroppedCanvas()) {
-      setCroppedImage(cropper.getCroppedCanvas().toDataURL());
+      setCroppedImage(cropper.getCroppedCanvas().toDataURL('image/jpeg'));
       setOpenDialog(false);
     }
   };
@@ -56,22 +120,22 @@ const CropAvatar: React.FC = () => {
           <Cropper src={String(imageSrc)} ref={cropperRef} aspectRatio={1} viewMode={1} dragMode="move" />
         </DialogContent>
         <DialogActions>
-          <Button color="primary" onClick={() => rotateImage(90)}>
-            Rotate Right
-          </Button>
-          <Button color="primary" onClick={() => rotateImage(-90)}>
-            Rotate Left
-          </Button>
-          <Button color="primary" onClick={cropImage}>
-            Crop
-          </Button>
-          <Button color="secondary" onClick={() => setOpenDialog(false)}>
+          <Button color="secondary" onClick={() => setOpenDialog(false)} startIcon={<FcCancel />}>
             Cancel
+          </Button>
+          <IconButton color="primary" onClick={() => rotateImage(-90)}>
+            <AiOutlineRotateLeft />
+          </IconButton>
+          <IconButton color="primary" onClick={() => rotateImage(90)}>
+            <AiOutlineRotateRight />
+          </IconButton>
+          <Button color="success" onClick={cropImage} startIcon={<HiOutlineCamera />} variant="contained">
+            Crop
           </Button>
         </DialogActions>
       </Dialog>
 
-      <Stack alignItems="center" direction="row" spacing={2}>
+      <Stack alignItems="center" direction="row">
         <Box
           sx={{
             borderColor: 'neutral.300',
@@ -114,7 +178,7 @@ const CropAvatar: React.FC = () => {
               >
                 <Stack alignItems="center" direction="row" spacing={1}>
                   <SvgIcon color="inherit">
-                    <CreditCard01 />
+                    <HiOutlinePhoto />
                   </SvgIcon>
                   <Typography color="inherit" variant="subtitle2" sx={{ fontWeight: 700 }}>
                     Select
@@ -123,18 +187,24 @@ const CropAvatar: React.FC = () => {
               </Box>
             </label>
             <Avatar
-              src={croppedImage || 'avatar'}
+              src={croppedImage || user?.avatar}
               sx={{
                 height: 100,
                 width: 100,
               }}
-            >
-              <SvgIcon>
-                <MdAccountCircle />
-              </SvgIcon>
-            </Avatar>
+            />
           </Box>
         </Box>
+      </Stack>
+      <Stack direction="row" spacing={2}>
+        <Button startIcon={<BsSave />} variant="contained" onClick={saveAvatar} disabled={isSubmitting}>
+          Save avatar
+        </Button>
+        <Tooltip title="Delete avatar">
+          <IconButton onClick={deleteAvatar} disabled={isSubmitting}>
+            <RiDeleteBin2Fill />
+          </IconButton>
+        </Tooltip>
       </Stack>
     </>
   );

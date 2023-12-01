@@ -1,13 +1,13 @@
-import { UserHobbies } from '@/app/(public)/search/_components/UserHobbies';
-import { UserLanguages } from '@/app/(public)/search/_components/UserLanguages';
-import { MemberCardHeader } from '../MemberCardHeader';
+import { UserHobbies } from '@/components/UserHobbies';
+import { UserLanguages } from '@/components/UserLanguages';
 import { Card, CardContent, Stack } from '@mui/material';
 import { AiFillLike } from 'react-icons/ai';
 import { BsFillBookFill } from 'react-icons/bs';
 import { RiSpeakFill } from 'react-icons/ri';
+import { MemberCardHeader } from '../MemberCardHeader';
 import { TProps } from './types';
 
-const LanguagesAndHobbies: React.FC<TProps> = (props) => {
+const LanguagesAndHobbies = (props: TProps) => {
   const { user } = props;
 
   return (

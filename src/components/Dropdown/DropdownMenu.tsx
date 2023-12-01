@@ -8,7 +8,7 @@ type TOwnProps = {
 
 type TDropdownMenuProps = TOwnProps;
 
-export const DropdownMenu: React.FC<TDropdownMenuProps> = (props) => {
+export const DropdownMenu = (props: TDropdownMenuProps) => {
   const { anchorEl, children, PaperProps, ...other } = props;
   const ctx = useContext(DropdownContext);
 

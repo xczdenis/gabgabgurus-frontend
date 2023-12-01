@@ -1,0 +1,67 @@
+ARG img=node:20.10.0-slim
+ARG work_dir=app
+
+FROM ${img} AS base
+
+ARG work_dir
+
+FROM base AS deps
+
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+#RUN apk add --no-cache libc6-compat
+WORKDIR /${work_dir}
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+
+
+FROM base AS builder
+WORKDIR /${work_dir}
+
+COPY --from=deps /${work_dir}/node_modules ./node_modules
+COPY . .
+
+ENV NEXT_TELEMETRY_DISABLED 1
+
+RUN npm run build
+
+
+FROM base AS runner
+WORKDIR /${work_dir}
+
+ENV NODE_ENV=production \
+    NEXT_TELEMETRY_DISABLED=1
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY ./scripts ./scripts
+COPY ./docker/web/scripts ./scripts
+RUN chmod -R 777 ./scripts
+
+COPY --from=builder /${work_dir}/public ./public
+
+#RUN mkdir .next \
+#    && chown nextjs:nodejs .next
+
+COPY --from=builder --chown=nextjs:nodejs /${work_dir}/.next ./.next
+COPY --from=builder /${work_dir}/node_modules ./node_modules
+COPY --from=builder /${work_dir}/package.json ./package.json
+#COPY --from=builder --chown=nextjs:nodejs /${work_dir}/.next/standalone ./
+#COPY --from=builder --chown=nextjs:nodejs /${work_dir}/.next/static ./.next/static
+
+
+
+USER nextjs
+
+EXPOSE 3000
+
+ENV PORT=3000 \
+    HOSTNAME="0.0.0.0"
+
+#ENTRYPOINT ["./scripts/entrypoint.sh"]
+# server.js is created by next build from the standalone output
+# https://nextjs.org/docs/pages/api-reference/next-config-js/output
+#CMD ["node", "server.js"]
+CMD ["npm", "start"]

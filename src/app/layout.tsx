@@ -1,13 +1,13 @@
-import './globals.css';
-import { ReduxProvider } from '@/store/provider';
 import { EmotionCache } from '@/components/EmotionCache';
+import { NProgress } from '@/components/NProgress';
 import { ThemeRegistry } from '@/components/ThemeRegistry';
+import { AuthProvider } from '@/contexts/Auth';
+import { SettingsProvider } from '@/contexts/Settings';
+import { ReduxProvider } from '@/store/provider';
 import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { AuthProvider } from '../contexts/Auth';
-import { NProgress } from '@/components/NProgress';
 import { Toaster } from 'react-hot-toast';
-import { SettingsProvider } from '../contexts/Settings';
+import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html>
       <body className={inter.className}>
         <EmotionCache options={{ key: 'mui' }}>
           <ReduxProvider>

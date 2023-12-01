@@ -1,3 +1,5 @@
+import { TLanguageLevel } from '@/lib/types/refs';
+
 export const languageLevels = [
   'Beginner (A0)',
   'Elementary (A1)',
@@ -7,4 +9,4 @@ export const languageLevels = [
   'Native',
 ];
 
-export const getLanguageLevelRepr = (level: number) => languageLevels[level];
+export const getLanguageLevelRepr = (level: TLanguageLevel) => languageLevels[level];

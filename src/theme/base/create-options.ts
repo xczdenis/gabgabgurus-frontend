@@ -1,7 +1,7 @@
-import { createTypography } from './create-typography';
 import { IThemeConfig } from '@/lib/types/theme';
 import { ThemeOptions } from '@mui/material/styles';
 import { createComponents } from './create-components';
+import { createTypography } from './create-typography';
 
 // Here we do not modify the "palette" and "shadows" because "light" and "dark" mode
 // may have different values.

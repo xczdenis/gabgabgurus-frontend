@@ -1,11 +1,6 @@
 import { TDefaultId } from '@/lib/types/common';
-import { THobby } from '@/lib/types/info-data';
-import { TPaginationData } from '@/lib/types/pagination';
-
-export type TUserLanguage = {
-  name: string;
-  level: number;
-};
+import { TPagePagination } from '@/lib/types/pagination';
+import { THobby, TLanguage, TLanguageLevel } from '@/lib/types/refs';
 
 export interface IUser {
   id: TDefaultId;
@@ -13,6 +8,11 @@ export interface IUser {
   email: string;
   avatar: string;
 }
+
+export type TUserLanguage = {
+  language: TLanguage;
+  languageLevel: TLanguageLevel;
+};
 
 export type TUserProfile = {
   id: TDefaultId;
@@ -36,6 +36,8 @@ export type TMemberProfile = {
   hobbies: string[];
   avatar: string;
   isBlocked: boolean;
+  blockedFor: boolean;
+  lastActivity: number;
 };
 
-export type TMemberPagination = TPaginationData<TMemberProfile>;
+export type TMemberPagination = TPagePagination<TMemberProfile>;

@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { TCountry, THobby } from '@/lib/types/refs';
 
 export const FirstNameMaxLength = 50;
 export const AboutMeMaxLength = 1000;
@@ -7,7 +8,8 @@ export type TFormValues = {
   firstName: string;
   email: string;
   aboutMe: string;
-  hobbies: string[];
+  hobbies: THobby[];
+  country: TCountry;
 };
 
 export const initialValues = {
@@ -15,6 +17,7 @@ export const initialValues = {
   email: '',
   aboutMe: '',
   hobbies: [],
+  country: '',
 };
 
 export const validationSchema = Yup.object({

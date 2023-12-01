@@ -1,11 +1,11 @@
 'use client';
 
-import ToggleButton from './ToggleButton';
-import { useCallback } from 'react';
-import { useSettings } from '@/lib/hooks/use-settings';
 import { PaletteMode } from '@/config';
+import { useSettings } from '@/lib/hooks/use-settings';
+import { useCallback } from 'react';
+import ToggleButton from './ToggleButton';
 
-const ThemeSwitcher: React.FC = () => {
+const ThemeSwitcher = () => {
   const { switchTheme, paletteMode } = useSettings();
   const handleClick = useCallback(() => {
     switchTheme();

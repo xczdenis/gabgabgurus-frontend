@@ -5,7 +5,7 @@ const now = new Date();
 export const contacts = [
   {
     id: 1,
-    avatar: '/assets/avatars/avatar-alcides-antonio.png',
+    avatar: '/assets/avatars/avatar02.png',
     isActive: true,
     lastActivity: now.getTime(),
     firstName: 'Denis Petrov',
@@ -13,7 +13,7 @@ export const contacts = [
   },
   {
     id: 2,
-    avatar: '/assets/avatars/avatar-marcus-finn.png',
+    avatar: '/assets/avatars/avatar11.png',
     isActive: false,
     lastActivity: subHours(now, 2).getTime(),
     firstName: 'Marcus Finn',
@@ -21,7 +21,7 @@ export const contacts = [
   },
   {
     id: 3,
-    avatar: '/assets/avatars/avatar-carson-darrin.png',
+    avatar: '/assets/avatars/avatar05.png',
     isActive: false,
     lastActivity: subMinutes(now, 15).getTime(),
     firstName: 'Carson Darrin',
@@ -29,7 +29,7 @@ export const contacts = [
   },
   {
     id: 4,
-    avatar: '/assets/avatars/avatar-fran-perez.png',
+    avatar: '/assets/avatars/avatar07.png',
     isActive: true,
     lastActivity: now.getTime(),
     firstName: 'Fran Perez',
@@ -37,7 +37,7 @@ export const contacts = [
   },
   {
     id: 5,
-    avatar: '/assets/avatars/avatar-jie-yan-song.png',
+    avatar: '/assets/avatars/avatar10.png',
     isActive: true,
     lastActivity: now.getTime(),
     firstName: 'Jie Yan Song',
@@ -45,7 +45,7 @@ export const contacts = [
   },
   {
     id: 6,
-    avatar: '/assets/avatars/avatar-miron-vitold.png',
+    avatar: '/assets/avatars/avatar12.png',
     isActive: false,
     lastActivity: subHours(now, 1).getTime(),
     firstName: 'Miron Vitold',
@@ -53,7 +53,7 @@ export const contacts = [
   },
   {
     id: 7,
-    avatar: '/assets/avatars/avatar-penjani-inyene.png',
+    avatar: '/assets/avatars/avatar16.png',
     isActive: false,
     lastActivity: subHours(now, 6).getTime(),
     firstName: 'Penjani Inyene',
@@ -61,7 +61,7 @@ export const contacts = [
   },
   {
     id: 8,
-    avatar: '/assets/avatars/avatar-omar-darboe.png',
+    avatar: '/assets/avatars/avatar15.png',
     isActive: true,
     lastActivity: now.getTime(),
     firstName: 'Omar Darobe',
@@ -69,7 +69,7 @@ export const contacts = [
   },
   {
     id: 9,
-    avatar: '/assets/avatars/avatar-siegbert-gottfried.png',
+    avatar: '/assets/avatars/avatar18.png',
     isActive: true,
     lastActivity: now.getTime(),
     firstName: 'Siegbert Gottfried',
@@ -77,7 +77,7 @@ export const contacts = [
   },
   {
     id: 10,
-    avatar: '/assets/avatars/avatar-iulia-albu.png',
+    avatar: '/assets/avatars/avatar08.png',
     isActive: true,
     lastActivity: now.getTime(),
     firstName: 'Iulia Albu',
@@ -85,7 +85,7 @@ export const contacts = [
   },
   {
     id: 11,
-    avatar: '/assets/avatars/avatar-nasimiyu-danai.png',
+    avatar: '/assets/avatars/avatar13.png',
     isActive: true,
     lastActivity: now.getTime(),
     firstName: 'Nasimiyu Danai',

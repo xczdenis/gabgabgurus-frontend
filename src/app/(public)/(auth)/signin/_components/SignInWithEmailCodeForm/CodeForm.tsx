@@ -38,7 +38,7 @@ const validationSchema = Yup.object({
   code5: Yup.string().max(1).required(),
 });
 
-const CodeForm: React.FC = () => {
+const CodeForm = () => {
   const isMounted = useMounted();
   const stateAuth = useAppSelector((state) => state.auth);
   const { signInWithEmailCode } = useAuth();

@@ -1,14 +1,15 @@
 'use client';
 
+import { BaseContainer } from '@/components/BaseContainer';
 import { PaletteMode } from '@/config';
 import { Box } from '@mui/material';
-import { BaseContainer } from '@/components/BaseContainer';
 
 type TProps = {
   children: React.ReactNode;
 };
 
-const FooterContainer: React.FC<TProps> = ({ children }) => {
+export const FooterContainer = (props: TProps) => {
+  const { children } = props;
   return (
     <Box
       sx={{
@@ -27,5 +28,3 @@ const FooterContainer: React.FC<TProps> = ({ children }) => {
     </Box>
   );
 };
-
-export default FooterContainer;

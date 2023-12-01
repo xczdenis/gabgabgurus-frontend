@@ -1,18 +1,23 @@
-import { TDefaultId } from '@/lib/types/common';
-
-export type TPaginationParams = {
-  page?: string | number;
-  count?: string | number;
+export type TPageNumberPaginationParams = {
+  page?: number;
+  count?: number;
 };
 
-export type TChatIdPaginationRequest = TPaginationParams & {
-  chatId: TDefaultId;
+export type TLimitOffsetPaginationParams = {
+  limit?: number;
+  offset?: number;
 };
 
-export type TPaginationData<T> = {
+export type TBasePagination<T> = {
   count: number;
-  next: number | null;
-  prev: number | null;
-  current: number;
+  next: string | null;
+  previous: string | null;
   results: T[];
 };
+
+export type TPagePagination<T> = TBasePagination<T> & {
+  pages: number;
+  current: number;
+};
+
+export type TLimitOffsetPagination<T> = TBasePagination<T>;

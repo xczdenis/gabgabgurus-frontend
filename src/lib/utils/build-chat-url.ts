@@ -1,10 +1,10 @@
-import { TChatContact } from '@/lib/types/chat';
+import { TDefaultId } from '@/lib/types/common';
 import { buildUrl } from '@/lib/utils/build-url';
 import { urls } from '@/urls';
 
-export const buildChatUrl = (member: TChatContact | undefined): string => {
-  if (member) {
-    return buildUrl(urls.chats.personal, { path: { memberId: member.id } });
+export const buildChatUrl = (memberId: TDefaultId | undefined): string => {
+  if (memberId) {
+    return buildUrl(urls.chats.private, { path: { memberId } });
   }
   return '';
 };

@@ -1,4 +1,4 @@
-export function deepCopy<T>(obj: T): T {
+export const deepCopy = <T>(obj: T): T => {
   if (typeof obj !== 'object' || obj === null) {
     return obj;
   }
@@ -26,4 +26,4 @@ export function deepCopy<T>(obj: T): T {
 
   // Explicitly return undefined for non-object, null or unexpected types
   return undefined as unknown as T;
-}
+};

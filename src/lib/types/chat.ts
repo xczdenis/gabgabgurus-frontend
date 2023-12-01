@@ -1,39 +1,45 @@
-import { TPaginationData } from '@/lib/types/pagination';
+import { MessageStatuses } from '@/config';
 import { TDefaultId } from '@/lib/types/common';
+import { TLimitOffsetPagination, TPagePagination } from '@/lib/types/pagination';
 
-export type TChatContact = {
+export type TChannelContact = {
   id: TDefaultId;
   firstName: string;
   avatar: string;
+  lastLogin: number | null;
   isActive: boolean;
-  lastActivity: number;
   isBlocked: boolean;
+  blockedFor: boolean;
 };
 
-export type TChatMessage = {
+export type TMessageSender = {
   id: TDefaultId;
-  attachments: unknown[];
-  body: string;
-  contentType: 'text' | 'image';
+  firstName: string;
+  avatar: string;
+};
+
+export type TMessage = {
+  id: TDefaultId;
+  text: string;
   createdAt: number;
-  authorId: number;
+  sender: TMessageSender;
+  status: MessageStatuses;
 };
 
-export type TChatMessagePagination = TPaginationData<TChatMessage>;
+export type TMessagePagination = TLimitOffsetPagination<TMessage>;
 
-export type TChat = {
+export type TChannelBaseInfo = {
   id: TDefaultId;
-  participants: TChatContact[];
+  owner: string;
+  createdAt: number;
+};
+
+export type TChannel = {
+  id: TDefaultId;
+  participants: TChannelContact[];
   unreadCount: number;
   lastActivity: number;
+  lastMessage: string;
 };
 
-export type TChatPagination = TPaginationData<TChat>;
-
-export type TThread = {
-  id: TDefaultId;
-  messages: TChatMessage[];
-  participantIds: number[];
-  type: 'ONE_TO_ONE' | 'GROUP';
-  unreadCount: number;
-};
+export type TChannelPagination = TPagePagination<TChannel>;

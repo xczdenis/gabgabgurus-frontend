@@ -4,7 +4,7 @@ function toSnakeCase(str: string): string {
   return str.replace(/([A-Z])/g, '_$1').toLowerCase();
 }
 
-export function convertKeysCamelToSnake<T>(obj: T): TObjectKeysCamelToSnake<T> {
+export const convertKeysCamelToSnake = <T>(obj: T): TObjectKeysCamelToSnake<T> => {
   if (Array.isArray(obj)) {
     return obj.map(convertKeysCamelToSnake) as TObjectKeysCamelToSnake<T>;
   } else if (obj !== null && typeof obj === 'object') {
@@ -17,4 +17,4 @@ export function convertKeysCamelToSnake<T>(obj: T): TObjectKeysCamelToSnake<T> {
   } else {
     return obj as TObjectKeysCamelToSnake<T>;
   }
-}
+};

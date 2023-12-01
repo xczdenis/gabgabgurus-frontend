@@ -1,4 +1,4 @@
-import { THobby } from '@/lib/types/info-data';
+import { THobby } from '@/lib/types/refs';
 
 export const hobbies: THobby[] = [
   'Watching TV/Movies',
@@ -32,3 +32,14 @@ export const hobbies: THobby[] = [
   'Birdwatching',
   'Stand-up Comedy',
 ];
+
+export const getRandomHobby = (): THobby => {
+  const randomIndex = Math.floor(Math.random() * hobbies.length);
+  return hobbies[randomIndex];
+};
+
+export const getRandomHobbies = (count: number = 5): THobby[] => {
+  const randomCount = Math.floor(Math.random() * count) + 1;
+  const shuffled = [...hobbies].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, randomCount);
+};

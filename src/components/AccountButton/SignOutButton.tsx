@@ -1,57 +1,28 @@
 'use client';
 
+import { useAuth } from '@/lib/hooks/use-auth';
+import { Box, Button } from '@mui/material';
 import { useCallback } from 'react';
 import toast from 'react-hot-toast';
-import { Box, Button } from '@mui/material';
-import { useAuth } from '@/lib/hooks/use-auth';
-import { urls } from '@/urls';
-import { useRouter } from 'next/navigation';
 import { FiLogOut } from 'react-icons/fi';
 
 export type TProps = {
   onClose?: () => void;
 };
 
-export const SignOutButton: React.FC<TProps> = (props) => {
+export const SignOutButton = (props: TProps) => {
   const { onClose } = props;
   const { signOut } = useAuth();
-  const router = useRouter();
 
-  const handleSignOut = useCallback(async () => {
+  const handleSignOut = useCallback(() => {
     try {
       onClose?.();
-      signOut()
-        .then(() => router.push(urls.index))
-        .catch((e) => {
-          console.error(e);
-        });
-
-      // switch (auth.issuer) {
-      //   case Issuer.Amplify: {
-      //     await auth.signOut();
-      //     break;
-      //   }
-      //   case Issuer.Auth0: {
-      //     await auth.logout();
-      //     break;
-      //   }
-      //   case Issuer.Firebase: {
-      //     await auth.signOut();
-      //     break;
-      //   }
-      //   case Issuer.JWT: {
-      //     await auth.signOut();
-      //     break;
-      //   }
-      //   default: {
-      //     console.warn('Using an unknown Auth Issuer, did not log out');
-      //   }
-      // }
+      signOut();
     } catch (err) {
       console.error(err);
       toast.error('Something went wrong!');
     }
-  }, [onClose, router, signOut]);
+  }, [onClose, signOut]);
 
   return (
     <Box

@@ -1,16 +1,16 @@
 'use client';
 
+import { useAppDispatch } from '@/lib/hooks/store';
 import { useMounted } from '@/lib/hooks/use-mounted';
+import { makeStorageKey } from '@/lib/utils/make-storage-key';
+import { authService, localStorageService } from '@/modules/services';
+import { slice } from '@/store/slices/auth';
 import { Button, Stack, TextField, Typography } from '@mui/material';
 import { FormikHelpers, useFormik } from 'formik';
-import * as Yup from 'yup';
 import { useCallback, useEffect, useState } from 'react';
-import { authService, localStorageService } from '@/services';
-import { BiMailSend } from 'react-icons/bi';
-import { makeStorageKey } from '@/lib/utils/make-storage-key';
 import toast from 'react-hot-toast';
-import { useAppDispatch } from '@/lib/hooks/store';
-import { slice } from '@/store/slices/auth';
+import { BiMailSend } from 'react-icons/bi';
+import * as Yup from 'yup';
 
 const StorageKey = makeStorageKey('confirmationCodeSendingTime');
 const MaxWaitTimeInSeconds = 3;
@@ -30,7 +30,7 @@ const validationSchema = Yup.object({
   email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
 });
 
-const EmailForm: React.FC = () => {
+const EmailForm = () => {
   const dispatch = useAppDispatch();
   const isMounted = useMounted();
   const [isWaitingCode, setIsWaitingCode] = useState(false);

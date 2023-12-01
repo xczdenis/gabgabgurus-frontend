@@ -1,6 +1,6 @@
 import { TopNav } from '@/components/TopNav';
 
-const Navigation: React.FC = () => {
+const Navigation = () => {
   return <TopNav />;
 };
 

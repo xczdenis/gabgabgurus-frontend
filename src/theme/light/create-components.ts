@@ -1,3 +1,4 @@
+import { IComponentsConfig } from '@/lib/types/theme';
 import {
   backdropClasses,
   filledInputClasses,
@@ -7,7 +8,6 @@ import {
 } from '@mui/material';
 import { common } from '@mui/material/colors';
 import { alpha } from '@mui/material/styles';
-import { IComponentsConfig } from '@/lib/types/theme';
 
 export const createComponents = ({ palette }: IComponentsConfig) => {
   return {

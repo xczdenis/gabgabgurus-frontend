@@ -9,7 +9,8 @@ const colors = {
   indigo: indigo.main,
   success: success.main,
 };
-const MemberCardHeader: React.FC<TProps> = (props) => {
+
+const MemberCardHeader = (props: TProps) => {
   const { header, icon, color = 'indigo' } = props;
   const iconColor = colors[color];
   const newIcon = cloneElement(icon, { size: 24, color: iconColor });

@@ -1,13 +1,14 @@
 'use client';
 
+import { Preloader } from '@/components/Preloader';
+import { PaletteMode } from '@/config';
+import { localStorageService } from '@/modules/services';
 import { useCallback, useEffect, useState } from 'react';
 import { initialSettings, initialState, SettingsContext } from './context';
 import { IState, TOptionalISettings, TProps } from './types';
-import { localStorageService } from '@/services';
-import { PaletteMode } from '@/config';
-import { Preloader } from '@/components/Preloader';
 
-const SettingsProvider: React.FC<TProps> = ({ children }) => {
+const SettingsProvider = (props: TProps) => {
+  const { children } = props;
   const [state, setState] = useState<IState>(initialState);
 
   useEffect(() => {

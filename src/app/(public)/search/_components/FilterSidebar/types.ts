@@ -1,7 +1,10 @@
-import { DrawerProps } from '@mui/material/Drawer';
+export type TSearchParams = {
+  learning?: string;
+  speaks?: string;
+  countries?: string;
+  hobbies?: string;
+};
 
-export type TOwnProps = {
-  onClose?: () => void;
-} & DrawerProps;
-
-export type TProps = TOwnProps;
+export type TProps = {
+  searchParams: TSearchParams;
+};

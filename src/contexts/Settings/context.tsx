@@ -1,9 +1,9 @@
 'use client';
 
 import { PaletteMode } from '@/config';
+import { ISettings } from '@/lib/types/theme';
 import { createContext } from 'react';
 import { IContextProps, IState } from './types';
-import { ISettings } from '@/lib/types/theme';
 
 export const initialSettings: ISettings = {
   direction: 'ltr',

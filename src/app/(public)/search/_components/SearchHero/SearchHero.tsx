@@ -1,6 +1,6 @@
 import { Box, Container, Typography } from '@mui/material';
 
-const SearchHero: React.FC = () => {
+const SearchHero = () => {
   return (
     <Box
       sx={{

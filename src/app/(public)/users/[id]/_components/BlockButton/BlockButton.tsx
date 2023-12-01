@@ -1,14 +1,17 @@
 'use client';
 
-import { error } from '@/theme/colors';
-import { IconButton, Tooltip } from '@mui/material';
-import { TProps } from './types';
-import { CgUnblock } from 'react-icons/cg';
-import { useState } from 'react';
-import { SiAdblock } from 'react-icons/si';
+import { useAuth } from '@/lib/hooks/use-auth';
 import { useSwitchMemberBlocking } from '@/lib/hooks/use-switch-member-blocking';
+import { showToastError } from '@/lib/utils/show-toast-error';
+import { error } from '@/theme/colors';
+import { Box, IconButton, Tooltip } from '@mui/material';
+import { useState } from 'react';
+import { CgUnblock } from 'react-icons/cg';
+import { SiAdblock } from 'react-icons/si';
+import { TProps } from './types';
 
-const BlockButton: React.FC<TProps> = (props) => {
+const BlockButton = (props: TProps) => {
+  const { isAuthenticated } = useAuth();
   const { memberId, isBlocked: isBlockedDefault } = props;
   const { switchMemberBlocking } = useSwitchMemberBlocking();
   const [isBlocked, setIsBlocked] = useState(isBlockedDefault);
@@ -17,25 +20,35 @@ const BlockButton: React.FC<TProps> = (props) => {
   const handleBlockButtonClick = () => {
     setIsSubmitting(true);
 
-    switchMemberBlocking(!isBlocked, memberId).then(() => {
-      setIsBlocked((prev) => !prev);
-      setIsSubmitting(false);
-    });
+    switchMemberBlocking(!isBlocked, memberId)
+      .then(() => {
+        setIsBlocked((prev) => !prev);
+      })
+      .catch((error) => {
+        showToastError(error.message);
+      })
+      .finally(() => setIsSubmitting(false));
   };
+
+  const buttonIsDisabled = !isAuthenticated || isSubmitting;
 
   return (
     <>
       {isBlocked ? (
         <Tooltip title="Unblock user">
-          <IconButton disabled={isSubmitting} onClick={handleBlockButtonClick}>
-            <CgUnblock />
-          </IconButton>
+          <Box>
+            <IconButton disabled={buttonIsDisabled} onClick={handleBlockButtonClick}>
+              <CgUnblock />
+            </IconButton>
+          </Box>
         </Tooltip>
       ) : (
         <Tooltip title="Block user">
-          <IconButton disabled={isSubmitting} onClick={handleBlockButtonClick}>
-            <SiAdblock color={error.main} />
-          </IconButton>
+          <Box>
+            <IconButton disabled={buttonIsDisabled} onClick={handleBlockButtonClick}>
+              <SiAdblock color={buttonIsDisabled ? 'text.secondary' : error.main} />
+            </IconButton>
+          </Box>
         </Tooltip>
       )}
     </>

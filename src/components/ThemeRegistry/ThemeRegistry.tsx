@@ -1,12 +1,13 @@
 'use client';
 
 import { useSettings } from '@/lib/hooks/use-settings';
+import { createTheme } from '@/theme';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 import { TProps } from './types';
-import { createTheme } from '@/theme';
 
-const ThemeRegistry: React.FC<TProps> = ({ children }) => {
+const ThemeRegistry = (props: TProps) => {
+  const { children } = props;
   const settings = useSettings();
   const theme = createTheme({
     colorPreset: settings.colorPreset,
@@ -15,6 +16,7 @@ const ThemeRegistry: React.FC<TProps> = ({ children }) => {
     paletteMode: settings.paletteMode,
     responsiveFontSizes: settings.responsiveFontSizes,
   });
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

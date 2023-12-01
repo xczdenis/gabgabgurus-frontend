@@ -1,10 +1,11 @@
 'use client';
 
-import { Next13ProgressBar } from 'next13-progressbar';
 import { useTheme } from '@mui/material/styles';
+import { Next13ProgressBar } from 'next13-progressbar';
 import { TProps } from './types';
 
-const Providers: React.FC<TProps> = ({ children }) => {
+const Providers = (props: TProps) => {
+  const { children } = props;
   const theme = useTheme();
   return (
     <>

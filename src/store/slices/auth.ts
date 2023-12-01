@@ -22,6 +22,9 @@ const reducers = {
     state.isInitialized = true;
     state.user = user;
   },
+  setIsInitialize: (state: IAuthState, action: PayloadAction<boolean>) => {
+    state.isInitialized = action.payload;
+  },
   signIn: (state: IAuthState, action: PayloadAction<IUser>) => {
     state.isAuthenticated = true;
     state.user = action.payload;

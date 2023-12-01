@@ -1,10 +1,11 @@
-import { TPaginationParams } from '@/lib/types/pagination';
+import { TPageNumberPaginationParams } from '@/lib/types/pagination';
 
 export type TSearchParams = {
   learning?: string;
   speaks?: string;
   countries?: string;
-} & TPaginationParams;
+  hobbies?: string;
+} & TPageNumberPaginationParams;
 
 export type TProps = {
   searchParams: TSearchParams;

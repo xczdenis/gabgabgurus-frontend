@@ -6,7 +6,7 @@ type TDropdownProps = {
   delay?: number;
 };
 
-export const Dropdown: React.FC<TDropdownProps> = (props) => {
+export const Dropdown = (props: TDropdownProps) => {
   const { children, delay = 50 } = props;
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const cleanupRef = useRef<ReturnType<typeof setTimeout> | null>(null);

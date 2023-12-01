@@ -1,10 +1,10 @@
-import { LanguagesAndHobbies } from '@/app/(public)/users/[id]/_components/LanguagesAndHobbies';
-import { MemberCardHeader } from '../MemberCardHeader';
 import { Card, CardContent, Typography, Unstable_Grid2 as Grid } from '@mui/material';
 import { BsEmojiSmile } from 'react-icons/bs';
+import { LanguagesAndHobbies } from '../LanguagesAndHobbies';
+import { MemberCardHeader } from '../MemberCardHeader';
 import { TProps } from './types';
 
-const MemberInfo: React.FC<TProps> = (props) => {
+const MemberInfo = (props: TProps) => {
   const { user } = props;
 
   return (

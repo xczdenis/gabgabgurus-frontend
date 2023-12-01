@@ -1,40 +1,60 @@
+import { MessageStatuses } from '@/config';
+import { TMessage, TMessagePagination } from '@/lib/types/chat';
+import { TDefaultId } from '@/lib/types/common';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TChatMessage } from '@/lib/types/chat';
-
-type TMessagePagination = {
-  data: TChatMessage[];
-  next: number | null;
-  count: number;
-};
 
 interface IChatState {
-  messages: TChatMessage[];
-  next: number | null;
-  count: number;
+  messages: TMessage[];
+  next: string | null;
   isBlocked: boolean;
+  channelId: TDefaultId | null;
+  lastActivity: number;
+  lastActivityOfPeer: number;
 }
 
 const initialState: IChatState = {
   messages: [],
   next: null,
-  count: 0,
   isBlocked: false,
+  channelId: null,
+  lastActivity: 0,
+  lastActivityOfPeer: 0,
 };
 
 const reducers = {
   setMessages(state: IChatState, action: PayloadAction<TMessagePagination>) {
-    state.messages = [...action.payload.data, ...state.messages];
+    state.messages = action.payload.results;
     state.next = action.payload.next;
-    state.count = action.payload.count;
+  },
+  appendMessages(state: IChatState, action: PayloadAction<TMessagePagination>) {
+    state.messages = [...action.payload.results, ...state.messages];
+    state.next = action.payload.next;
   },
   removeMessages(state: IChatState) {
     state.messages = [];
   },
-  addMessage(state: IChatState, action: PayloadAction<TChatMessage>) {
+  addMessage(state: IChatState, action: PayloadAction<TMessage>) {
     state.messages.push(action.payload);
   },
-  setChatBlocking(state: IChatState, action: PayloadAction<boolean>) {
+  setChatIsBlocked(state: IChatState, action: PayloadAction<boolean>) {
     state.isBlocked = action.payload;
+  },
+  setChannelId(state: IChatState, action: PayloadAction<TDefaultId>) {
+    state.channelId = action.payload;
+  },
+  setLastActivity(state: IChatState, action: PayloadAction<number>) {
+    state.lastActivity = action.payload;
+  },
+  setLastActivityOfPeer(state: IChatState, action: PayloadAction<number>) {
+    state.lastActivityOfPeer = action.payload;
+  },
+  markMessagesAsRead(state: IChatState, action: PayloadAction<TDefaultId[]>) {
+    action.payload.forEach((payloadMsgId) => {
+      const message = state.messages.find((stateMsg) => stateMsg.id === payloadMsgId);
+      if (message) {
+        message.status = MessageStatuses.Read;
+      }
+    });
   },
 };
 

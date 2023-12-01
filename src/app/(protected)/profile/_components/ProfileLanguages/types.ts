@@ -1,9 +1,7 @@
-import { TUserProfile } from '@/lib/types/user';
-import { TUserLanguagesType } from '@/lib/types/info-data';
+import { TUserLanguageType } from '@/lib/types/refs';
 
 export type TOwnProps = {
-  profile: TUserProfile;
-  userLanguagesType: TUserLanguagesType;
+  userLanguageType: TUserLanguageType;
   title: string;
   subtitle: string;
 };

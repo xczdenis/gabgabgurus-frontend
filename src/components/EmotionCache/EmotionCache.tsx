@@ -7,7 +7,7 @@ import * as React from 'react';
 import { TProps } from './types';
 
 // Adapted from https://github.com/garronej/tss-react/blob/main/src/next/appDir.tsx
-const EmotionCache: React.FC<TProps> = (props) => {
+const EmotionCache = (props: TProps) => {
   const { options, CacheProvider = DefaultCacheProvider, children } = props;
 
   const [registry] = React.useState(() => {

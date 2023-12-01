@@ -2,14 +2,14 @@
 
 import { useAuth } from '@/lib/hooks/use-auth';
 import { useMounted } from '@/lib/hooks/use-mounted';
+import { urls } from '@/urls';
 import { Box, Button, Link, Stack, TextField } from '@mui/material';
 import { FormikHelpers, useFormik } from 'formik';
-import * as Yup from 'yup';
-import { TFormValues } from './types';
 import { useSearchParams } from 'next/dist/client/components/navigation';
-import { urls } from '@/urls';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import * as Yup from 'yup';
+import { TFormValues } from './types';
 
 const initialValues = {
   email: '',
@@ -22,7 +22,7 @@ const validationSchema = Yup.object({
   password: Yup.string().max(255).required('Password is required'),
 });
 
-const SignInWithPasswordForm: React.FC = () => {
+const SignInWithPasswordForm = () => {
   const isMounted = useMounted();
   const { signIn } = useAuth();
   const params = useSearchParams();

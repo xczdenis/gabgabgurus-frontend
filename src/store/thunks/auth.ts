@@ -1,21 +1,18 @@
-import { Dispatch } from 'redux';
-import { authService, localStorageService } from '@/services';
-import { slice as authSlice } from '@/store/slices/auth';
 import { IUser } from '@/lib/types/user';
+import { TSignInParams } from '@/modules/data-gateways/interfaces/oauth-gateway';
+import { authService, localStorageService, oAuthService } from '@/modules/services';
+import { slice as authSlice } from '@/store/slices/auth';
+import { urls } from '@/urls';
+import { Dispatch } from 'redux';
 
-const initializeThunk = () => async (dispatch: Dispatch) => {
-  return authService
-    .me()
-    .then((user) => {
-      dispatch(authSlice.actions.initialize({ isAuthenticated: true, user }));
-      localStorageService.setUser(user);
-      return user;
-    })
-    .catch((error) => {
-      dispatch(authSlice.actions.initialize({ isAuthenticated: false, user: null }));
-      localStorageService.removeUser();
-      throw error;
-    });
+const initializeThunk = (user: IUser) => async (dispatch: Dispatch) => {
+  dispatch(authSlice.actions.initialize({ isAuthenticated: true, user }));
+  localStorageService.setUser(user);
+};
+
+const resetAuthState = () => async (dispatch: Dispatch) => {
+  dispatch(authSlice.actions.initialize({ isAuthenticated: false, user: null }));
+  localStorageService.removeUser();
 };
 
 const signInThunk = (email: string, password: string) => async (dispatch: Dispatch) => {
@@ -51,16 +48,28 @@ const signInWithEmailCodeThunk = (code: string) => async (dispatch: Dispatch) =>
     });
 };
 
+const oAuthSignInThunk = (params: TSignInParams) => async (dispatch: Dispatch) => {
+  return oAuthService
+    .signIn(params)
+    .then((user) => {
+      dispatch(authSlice.actions.signIn(user));
+      localStorageService.setUser(user);
+      return user;
+    })
+    .catch((error) => {
+      dispatch(authSlice.actions.initialize({ isAuthenticated: false, user: null }));
+      localStorageService.removeUser();
+      throw error;
+    });
+};
+
 const signOutThunk = () => async (dispatch: Dispatch) => {
-  return authService
+  return oAuthService
     .signOut()
-    .then((result) => {
-      if (result === true) {
-        dispatch(authSlice.actions.signOut());
-        localStorageService.removeUser();
-        return result;
-      }
-      throw new Error('Sign out failed');
+    .then(() => {
+      dispatch(authSlice.actions.signOut());
+      localStorageService.removeUser();
+      window.location.href = urls.index;
     })
     .catch((error) => {
       throw error;
@@ -72,10 +81,17 @@ const updateUser = (user: IUser) => async (dispatch: Dispatch) => {
   localStorageService.setUser(user);
 };
 
+const setIsInitialize = (isInitialize: boolean) => async (dispatch: Dispatch) => {
+  dispatch(authSlice.actions.setIsInitialize(isInitialize));
+};
+
 export const thunks = {
   initializeThunk,
   signInThunk,
   signInWithEmailCodeThunk,
+  oAuthSignInThunk,
   signOutThunk,
   updateUser,
+  setIsInitialize,
+  resetAuthState,
 };

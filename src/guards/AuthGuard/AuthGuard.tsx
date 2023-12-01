@@ -1,13 +1,14 @@
 'use client';
 
+import { Preloader } from '@/components/Preloader';
 import { useAuth } from '@/lib/hooks/use-auth';
 import { urls } from '@/urls';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { TProps } from './types';
-import { Preloader } from '@/components/Preloader';
 
-const AuthGuard: React.FC<TProps> = ({ children }) => {
+const AuthGuard = (props: TProps) => {
+  const { children } = props;
   const router = useRouter();
   const { isAuthenticated, isInitialized } = useAuth();
   const [checked, setChecked] = useState(false);

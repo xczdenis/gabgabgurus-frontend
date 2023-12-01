@@ -9,7 +9,7 @@ const ChatButton = <C extends React.ElementType>(props: TProps<C>) => {
 
   return (
     <Button
-      href={buildUrl(urls.chats.personal, { path: { memberId: memberId } })}
+      href={memberId ? buildUrl(urls.chats.private, { path: { memberId: memberId } }) : urls.auth.signin}
       target="_blank"
       size="medium"
       variant="outlined"

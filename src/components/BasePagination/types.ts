@@ -1,8 +1,8 @@
 import { PaginationProps } from '@mui/material/Pagination';
 
 export type TOwnProps = {
-  page?: number;
-  count?: number;
+  currentPage: number;
+  totalPages: number;
 } & PaginationProps;
 
 export type TProps = TOwnProps;

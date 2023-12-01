@@ -1,75 +1,60 @@
 'use client';
 
-import {
-  Autocomplete,
-  Button,
-  Card,
-  CardContent,
-  Chip,
-  FormControl,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  Stack,
-  TextField,
-  Tooltip,
-  Typography,
-  Unstable_Grid2 as Grid,
-} from '@mui/material';
-import { useLanguages } from '@/lib/hooks/use-languages';
-import { getLanguageLevelRepr } from '@/lib/utils/get-language-level-repr';
-import { useCallback, useState } from 'react';
-import { TProps } from './types';
-import toast from 'react-hot-toast';
+import { UserLanguages } from '@/components/UserLanguages';
+import { useProfile } from '@/lib/hooks/swr/use-profile';
+import { TLanguage, TLanguageLevel } from '@/lib/types/refs';
 import { TUserLanguage } from '@/lib/types/user';
-import { UserLanguages } from '@/app/(public)/search/_components/UserLanguages';
-import { userService } from '@/services';
 import { showToastError } from '@/lib/utils/show-toast-error';
+import { userService } from '@/modules/services';
+import { Card, CardContent, Stack, Typography, Unstable_Grid2 as Grid } from '@mui/material';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { LanguagesAddButton } from './LanguagesAddButton';
+import { LanguagesAutocompleteInput } from './LanguagesAutocompleteInput';
+import { LanguagesLevelsRadioGroup } from './LanguagesLevelsRadioGroup';
+import { TProps } from './types';
 
-const languageLevels = [
-  [5, 'Native'],
-  [4, 'C1-C2'],
-  [3, 'B1-B2'],
-  [2, 'A1-A2'],
-  [1, 'A1'],
-  [0, 'A0'],
-];
-
-const ProfileLanguages: React.FC<TProps> = (props) => {
-  const { profile, userLanguagesType, title, subtitle } = props;
-  const { languages } = useLanguages();
-  const [speaksLanguages, setSpeaksLanguages] = useState<TUserLanguage[]>(
-    userLanguagesType === 'speaks' ? profile.speaks : profile.learning
-  );
+const ProfileLanguages = (props: TProps) => {
+  const { userLanguageType, title, subtitle } = props;
+  const { profile } = useProfile();
+  const [userLanguages, setUserLanguages] = useState<TUserLanguage[]>([]);
   const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
-  const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
+  const [selectedLevel, setSelectedLevel] = useState<TLanguageLevel | null>(null);
+  const isSpeaking = userLanguageType === 'speaks';
+  const isLearning = userLanguageType === 'learning';
 
-  const addNewLanguage = async (languageName: string, languageLevel: number) => {
-    userService
-      .updateLanguages(userLanguagesType, languageName, languageLevel)
-      .then(() => {
-        setSpeaksLanguages((prevState) => [...prevState, { name: languageName, level: languageLevel }]);
-        toast.success('New language added successfully!', { icon: '👏' });
-      })
-      .catch(() => {
-        showToastError();
-      });
+  useEffect(() => {
+    if (profile) {
+      setUserLanguages(profile[userLanguageType]);
+    }
+  }, [profile, userLanguageType]);
+
+  const createUserLanguage = async (language: TLanguage, languageLevel: TLanguageLevel) => {
+    try {
+      if (isSpeaking) {
+        await userService.updateUserLanguage({ language, languageLevel, isSpeaking });
+      } else {
+        await userService.updateUserLanguage({ language, languageLevel, isLearning });
+      }
+      setUserLanguages((prevState) => [...prevState, { language: language, languageLevel: languageLevel }]);
+      toast.success('New language added successfully!', { icon: '👏' });
+    } catch (err) {
+      showToastError();
+    }
   };
 
-  const updateLanguageLevel = async (languageName: string, languageIndex: number, languageLevel: number) => {
-    userService
-      .updateLanguages(userLanguagesType, languageName, languageLevel)
-      .then(() => {
-        setSpeaksLanguages((prevState) => {
-          const updatedLanguages = [...prevState];
-          updatedLanguages[languageIndex].level = languageLevel;
-          return updatedLanguages;
-        });
-        toast.success('Language level updated successfully!', { icon: '👏' });
-      })
-      .catch(() => {
-        showToastError();
+  const updateUserLanguage = async (language: TLanguage, languageIndex: number, languageLevel: TLanguageLevel) => {
+    try {
+      await userService.updateUserLanguage({ language, languageLevel });
+      setUserLanguages((prevState) => {
+        const updatedLanguages = [...prevState];
+        updatedLanguages[languageIndex].languageLevel = languageLevel;
+        return updatedLanguages;
       });
+      toast.success('Language level updated successfully!', { icon: '👏' });
+    } catch (err) {
+      showToastError();
+    }
   };
 
   const handleAddLanguage = async () => {
@@ -78,32 +63,31 @@ const ProfileLanguages: React.FC<TProps> = (props) => {
     } else if (selectedLevel == null) {
       toast.error('You have to specify your language level');
     } else {
-      const existingLanguageIndex = speaksLanguages.findIndex((lang) => lang.name === selectedLanguage);
+      const existingLanguageIndex = userLanguages.findIndex((lang) => lang.language === selectedLanguage);
 
       if (existingLanguageIndex === -1) {
-        await addNewLanguage(selectedLanguage, selectedLevel);
-      } else if (speaksLanguages[existingLanguageIndex].level !== selectedLevel) {
-        await updateLanguageLevel(selectedLanguage, existingLanguageIndex, selectedLevel);
+        await createUserLanguage(selectedLanguage, selectedLevel);
+      } else if (userLanguages[existingLanguageIndex].languageLevel !== selectedLevel) {
+        await updateUserLanguage(selectedLanguage, existingLanguageIndex, selectedLevel);
       } else {
         toast.error('Language with the selected level already exists');
       }
     }
   };
 
-  const handleRemoveLanguage = useCallback(
-    (language: string) => {
-      userService
-        .removeLanguage(userLanguagesType, language)
-        .then(() => {
-          setSpeaksLanguages((prevState) => prevState.filter((lang) => lang.name !== language));
-          toast.success('Language removed');
-        })
-        .catch(() => {
-          showToastError();
-        });
-    },
-    [userLanguagesType]
-  );
+  const handleRemoveLanguage = async (language: TLanguage) => {
+    try {
+      if (isSpeaking) {
+        await userService.updateUserLanguage({ language, isSpeaking: false });
+      } else {
+        await userService.updateUserLanguage({ language, isLearning: false });
+      }
+      setUserLanguages((prevState) => prevState.filter((lang) => lang.language !== language));
+      toast.success('Language removed');
+    } catch (err) {
+      showToastError();
+    }
+  };
 
   return (
     <Stack spacing={4}>
@@ -120,63 +104,16 @@ const ProfileLanguages: React.FC<TProps> = (props) => {
             </Grid>
             <Grid xs={12} sm={12} md={8}>
               <Stack spacing={3}>
-                {languages && (
-                  <Autocomplete
-                    disablePortal
-                    fullWidth
-                    options={languages}
-                    onChange={(_, value) => setSelectedLanguage(value)}
-                    renderInput={(params) => <TextField {...params} label="Language" />}
-                    renderOption={(props, option) => {
-                      return (
-                        <li {...props} key={option}>
-                          {option}
-                        </li>
-                      );
-                    }}
-                    renderTags={(tagValue, getTagProps) => {
-                      return tagValue.map((option, index) => (
-                        <Chip {...getTagProps({ index })} key={option} label={option} />
-                      ));
-                    }}
-                  />
-                )}
-                <FormControl>
-                  <Typography variant="subtitle1" color={'text.secondary'}>
-                    Level
-                  </Typography>
-                  <RadioGroup
-                    row
-                    name="language-level"
-                    onChange={(event) => setSelectedLevel(Number(event.target.value))}
-                  >
-                    {languageLevels.map(([level, label]) => (
-                      <Tooltip key={level} title={getLanguageLevelRepr(Number(level))} placement="top-start">
-                        <FormControlLabel
-                          value={level}
-                          control={<Radio />}
-                          label={`${level} (${label})`}
-                          disabled={!selectedLanguage}
-                        />
-                      </Tooltip>
-                    ))}
-                  </RadioGroup>
-                </FormControl>
+                <LanguagesAutocompleteInput onChange={setSelectedLanguage} />
+                <LanguagesLevelsRadioGroup onChangeLevel={setSelectedLevel} levelsGroupDisabled={!selectedLanguage} />
               </Stack>
-              <Button
-                sx={{ mt: 3, mr: 3 }}
-                variant="contained"
-                disabled={!selectedLanguage || selectedLevel === null}
+              <LanguagesAddButton
                 onClick={handleAddLanguage}
-              >
-                Add Language
-              </Button>
-              <UserLanguages
-                mt={3}
-                languages={speaksLanguages}
-                header="My languages"
-                removeHandler={handleRemoveLanguage}
+                userLanguages={userLanguages}
+                selectedLanguage={selectedLanguage}
+                selectedLevel={selectedLevel}
               />
+              <UserLanguages mt={3} languages={userLanguages} header="Languages" removeHandler={handleRemoveLanguage} />
             </Grid>
           </Grid>
         </CardContent>

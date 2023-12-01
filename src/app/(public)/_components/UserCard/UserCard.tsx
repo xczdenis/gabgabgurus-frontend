@@ -1,13 +1,13 @@
 import { ChatButton } from '@/components/ChatButton';
 import { LanguageLevelIcon } from '@/components/LanguageLevelIcon';
-import { Avatar, Box, Card, Divider, List, ListItem, ListItemText, Stack, Typography } from '@mui/material';
-import { TProps } from './types';
-import Link from 'next/link';
 import { buildUrl } from '@/lib/utils/build-url';
 import { urls } from '@/urls';
-import UserCardLink from '@/app/(public)/_components/UserCard/UserCardLink';
+import { Avatar, Box, Card, Divider, List, ListItem, ListItemText, Stack, Typography } from '@mui/material';
+import Link from 'next/link';
+import { TProps } from './types';
+import { UserCardLink } from './UserCardLink';
 
-const UserCard: React.FC<TProps> = (props) => {
+const UserCard = (props: TProps) => {
   const { user } = props;
   const userDetailUrl = buildUrl(urls.users.detail, { path: { id: user.id } });
   const searchUrl = buildUrl(urls.search, { query: { country: user.country } });
@@ -42,9 +42,9 @@ const UserCard: React.FC<TProps> = (props) => {
             <Typography variant="subtitle2">Speaks</Typography>
             <List>
               {user.speaks.map((language) => (
-                <ListItem key={language.name} disablePadding>
-                  <ListItemText secondary={language.name} sx={{ mr: 2 }} />
-                  <LanguageLevelIcon level={language.level} />
+                <ListItem key={language.language} disablePadding>
+                  <ListItemText secondary={language.language} sx={{ mr: 2 }} />
+                  <LanguageLevelIcon level={language.languageLevel} />
                 </ListItem>
               ))}
             </List>
@@ -53,9 +53,9 @@ const UserCard: React.FC<TProps> = (props) => {
             <Typography variant="subtitle2">Learning</Typography>
             <List>
               {user.learning.map((language) => (
-                <ListItem key={language.name} disablePadding>
-                  <ListItemText secondary={language.name} sx={{ mr: 2 }} />
-                  <LanguageLevelIcon level={language.level} />
+                <ListItem key={language.language} disablePadding>
+                  <ListItemText secondary={language.language} sx={{ mr: 2 }} />
+                  <LanguageLevelIcon level={language.languageLevel} />
                 </ListItem>
               ))}
             </List>
@@ -65,7 +65,7 @@ const UserCard: React.FC<TProps> = (props) => {
       <Box sx={{ mt: 'auto' }}>
         <Divider />
         <Box sx={{ p: 2 }}>
-          <ChatButton memberId={user.id * 100} size="medium" />
+          <ChatButton memberId={user.id} size="medium" />
         </Box>
       </Box>
     </Card>

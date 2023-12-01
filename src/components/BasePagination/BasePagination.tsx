@@ -1,15 +1,14 @@
 'use client';
 
 import { Pagination, PaginationItem, SxProps } from '@mui/material';
-import { paginationConfig } from '@/config';
-import Link from 'next/link';
-import { TProps } from './types';
 import { useSearchParams } from 'next/dist/client/components/navigation';
-import { useCallback } from 'react';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useCallback } from 'react';
+import { TProps } from './types';
 
-const BasePagination: React.FC<TProps> = (props) => {
-  const { page = 1, count = paginationConfig.defaultCount, sx, ...rest } = props;
+const BasePagination = (props: TProps) => {
+  const { currentPage, totalPages, sx, ...rest } = props;
   const pathname = usePathname();
   const searchParams = useSearchParams()!;
 
@@ -31,8 +30,8 @@ const BasePagination: React.FC<TProps> = (props) => {
 
   return (
     <Pagination
-      count={count}
-      page={page}
+      count={totalPages}
+      page={currentPage}
       sx={mergedSx}
       shape="rounded"
       showFirstButton

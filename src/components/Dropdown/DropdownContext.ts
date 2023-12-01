@@ -1,5 +1,5 @@
-import { noop } from 'lodash';
 import { createContext } from 'react';
+import { noop } from 'lodash-es';
 
 type TDropdownContextType = {
   anchorEl: HTMLElement | null;

@@ -6,7 +6,7 @@ type TProps = {
   text: string;
 } & TypographyProps;
 
-const UserCardLink: React.FC<TProps> = (props) => {
+export const UserCardLink = (props: TProps) => {
   const { href, text, variant = 'subtitle1', ...rest } = props;
 
   return (
@@ -22,5 +22,3 @@ const UserCardLink: React.FC<TProps> = (props) => {
     </Typography>
   );
 };
-
-export default UserCardLink;

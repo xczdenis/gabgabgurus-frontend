@@ -1,34 +1,39 @@
 'use client';
 
-import { Button, Stack, TextField } from '@mui/material';
-import { useCallback, useEffect, useState } from 'react';
-import { useFormik } from 'formik';
-import { BasicDetailsHobbies } from '../BasicDetailsHobbies';
-import { AboutMeMaxLength, initialValues, TFormValues, validationSchema } from './form-config';
-import { TProps } from './types';
-import { THobby } from '@/lib/types/info-data';
-import { userService } from '@/services';
 import { useAppDispatch } from '@/lib/hooks/store';
-import { thunks } from '@/store/thunks/auth';
+import { useProfile } from '@/lib/hooks/swr/use-profile';
+import { removeNullKeys } from '@/lib/utils/remove-null-keys';
 import { showToastError } from '@/lib/utils/show-toast-error';
+import { showToastSuccess } from '@/lib/utils/show-toast-success';
+import { userService } from '@/modules/services';
+import { thunks } from '@/store/thunks/auth';
+import { Button, Skeleton, Stack } from '@mui/material';
+import { useFormik } from 'formik';
+import { useEffect, useState } from 'react';
+import { BiSolidSave } from 'react-icons/bi';
+import { FieldAboutMe } from './FieldAboutMe';
+import { FieldCountry } from './FieldCountry';
+import { FieldEmail } from './FieldEmail';
+import { FieldFirstName } from './FieldFirstName';
+import { FieldHobbies } from './FieldHobbies';
+import { initialValues, TFormValues, validationSchema } from './form-config';
 
-const BasicDetailsForm: React.FC<TProps> = (props) => {
-  const { profile } = props;
+const BasicDetailsForm = () => {
+  const { profile, revalidate } = useProfile();
   const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [aboutMeLength, setAboutMeLength] = useState(0);
 
-  const handleSubmit = (values: TFormValues) => {
+  const handleSubmit = async (values: TFormValues) => {
     setIsSubmitting(true);
-    userService
-      .updateUserProfile(values)
-      .then((updatedProfile) => {
-        dispatch(thunks.updateUser(updatedProfile));
-        setIsSubmitting(false);
-      })
-      .catch(() => {
-        showToastError();
-      });
+    try {
+      const updatedProfile = await userService.updateUserProfile(removeNullKeys(values));
+      dispatch(thunks.updateUser(updatedProfile));
+      await revalidate();
+      setIsSubmitting(false);
+      showToastSuccess('Profile successfully updated!');
+    } catch {
+      showToastError();
+    }
   };
 
   const formik = useFormik<TFormValues>({
@@ -37,72 +42,45 @@ const BasicDetailsForm: React.FC<TProps> = (props) => {
     onSubmit: handleSubmit,
   });
 
-  const handleAboutMeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    formik.handleChange(e);
-    setAboutMeLength(e.target.value.length);
-  };
-
-  const handleHobbiesChange = useCallback(
-    (newHobbies: THobby[]) => {
-      formik.setFieldValue('hobbies', newHobbies);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
-
   useEffect(
     () => {
-      formik.setValues({
-        ...profile,
-      });
+      if (profile) {
+        formik.setValues({
+          ...profile,
+        });
+      }
     },
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [profile]
   );
+
+  if (!profile) {
+    return (
+      <Stack spacing={2}>
+        {[...Array(5)].map((_, index) => (
+          <Skeleton key={index} height={50} sx={{ transform: 'none' }} />
+        ))}
+      </Stack>
+    );
+  }
 
   return (
     <form noValidate onSubmit={formik.handleSubmit}>
       <Stack spacing={2}>
-        <TextField
-          error={!!(formik.touched.firstName && formik.errors.firstName)}
-          helperText={formik.touched.firstName && formik.errors.firstName}
-          value={formik.values.firstName}
-          label="Name"
-          name="firstName"
-          type="text"
-          required
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-        />
-        <TextField
-          error={!!(formik.touched.email && formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-          value={formik.values.email}
-          label="Email"
-          type="email"
-          disabled
-        />
-        <TextField
-          error={!!(formik.touched.aboutMe && formik.errors.aboutMe)}
-          helperText={
-            formik.touched.aboutMe && formik.errors.aboutMe
-              ? `${formik.errors.aboutMe} (current length: ${aboutMeLength})`
-              : ''
-          }
-          value={formik.values.aboutMe}
-          label="About me"
-          name="aboutMe"
-          type="text"
-          multiline
-          maxRows={10}
-          minRows={4}
-          inputProps={{ maxLength: AboutMeMaxLength }}
-          onBlur={formik.handleBlur}
-          onChange={handleAboutMeChange}
-        />
-        <BasicDetailsHobbies userHobbies={profile.hobbies} onHobbiesChange={handleHobbiesChange} />
+        <FieldFirstName formik={formik} />
+        <FieldEmail formik={formik} />
+        <FieldCountry formik={formik} userCountry={profile.country} />
+        <FieldAboutMe formik={formik} />
+        <FieldHobbies formik={formik} userHobbies={profile.hobbies} />
       </Stack>
-      <Button sx={{ mt: 3 }} disabled={!formik.isValid || isSubmitting} type="submit" variant="contained">
+      <Button
+        startIcon={<BiSolidSave />}
+        sx={{ mt: 3 }}
+        disabled={!formik.isValid || isSubmitting}
+        type="submit"
+        variant="contained"
+      >
         Save
       </Button>
     </form>

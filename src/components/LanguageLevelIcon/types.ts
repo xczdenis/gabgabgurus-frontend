@@ -1,5 +1,7 @@
+import { TLanguageLevel } from '@/lib/types/refs';
+
 export type TOwnProps = {
-  level: number;
+  level: TLanguageLevel;
 };
 
 export type TProps = TOwnProps;

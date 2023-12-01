@@ -1,8 +1,9 @@
+import { getLanguageLevelRepr } from '@/lib/utils/get-language-level-repr';
 import { Tooltip } from '@mui/material';
 import { TProps } from './types';
-import { getLanguageLevelRepr } from '@/lib/utils/get-language-level-repr';
 
-const LanguageLevelIcon: React.FC<TProps> = ({ level }) => {
+const LanguageLevelIcon = (props: TProps) => {
+  const { level } = props;
   const totalBlocks = 5;
   const filledBlocks = level;
 

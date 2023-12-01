@@ -1,14 +1,15 @@
 'use client';
 
-import { Divider, Popover } from '@mui/material';
-import { useAuth } from '@/lib/hooks/use-auth';
-import { TProps } from './types';
-import { UserInfo } from '@/components/AccountButton/UserInfo';
-import { UserProfileLink } from '@/components/AccountButton/UserProfileLink';
-import { MessagesLink } from '@/components/AccountButton/MessagesLink';
 import { SignOutButton } from '@/components/AccountButton/SignOutButton';
+import { UserInfo } from '@/components/AccountButton/UserInfo';
+import { PopoverMenuLink } from '@/components/PopoverMenuLink';
+import { useAuth } from '@/lib/hooks/use-auth';
+import { urls } from '@/urls';
+import { Avatar, Divider, Popover } from '@mui/material';
+import { PiChatsLight } from 'react-icons/pi';
+import { TProps } from './types';
 
-export const AccountPopover: React.FC<TProps> = (props) => {
+export const AccountPopover = (props: TProps) => {
   const { anchorEl, onClose, open, ...other } = props;
   const { user } = useAuth();
 
@@ -27,9 +28,9 @@ export const AccountPopover: React.FC<TProps> = (props) => {
     >
       <UserInfo user={user} />
       <Divider />
-      <UserProfileLink user={user} />
+      <PopoverMenuLink url={urls.profile} title="Profile" icon={<Avatar src={user?.avatar} />} isSvgIcon={false} />
       <Divider />
-      <MessagesLink />
+      <PopoverMenuLink url={urls.chats.list} title="Messages" icon={<PiChatsLight />} />
       <Divider />
       <SignOutButton onClose={onClose} />
     </Popover>

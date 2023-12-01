@@ -1,11 +1,11 @@
-import { UserHobbies } from '../UserHobbies';
+import { UserHobbies } from '@/components/UserHobbies';
+import { UserLanguages } from '@/components/UserLanguages';
+import { Card, CardContent, Divider, Unstable_Grid2 as Grid } from '@mui/material';
 import { UserAboutMe } from '../UserAboutMe';
-import { UserLanguages } from '../UserLanguages';
 import { UserInfo } from '../UserInfo';
 import { TProps } from './types';
-import { Card, CardContent, Divider, Unstable_Grid2 as Grid } from '@mui/material';
 
-const UserListCard: React.FC<TProps> = (props) => {
+const UserListCard = (props: TProps) => {
   const { user } = props;
 
   return (

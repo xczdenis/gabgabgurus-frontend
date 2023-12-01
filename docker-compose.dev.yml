@@ -1,0 +1,23 @@
+x-base-dev-service: &base-dev-service
+    restart: "no"
+    networks:
+        - default
+
+services:
+    web:
+        <<: *base-dev-service
+        ports:
+            - ${PORT}:3000
+        networks:
+            - default
+            - gabgabgurus_external
+
+    proxy:
+        <<: *base-dev-service
+        volumes:
+            - ./docker/nginx/templates_dev:/etc/nginx/templates:ro
+
+networks:
+    gabgabgurus_external:
+        external: true
+        name: gabgabgurus_external

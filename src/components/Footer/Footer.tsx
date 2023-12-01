@@ -1,10 +1,11 @@
-import { cmpInfo } from '@/config';
-import { Box, Divider, Grid, Link, Stack, Typography } from '@mui/material';
-import { sections } from './sections';
-import FooterContainer from '@/components/Footer/FooterContainer';
 import { LogoButton } from '@/components/LogoButton';
+import { cmpInfo } from '@/config';
+import { Box, Divider, Grid, Stack, Typography } from '@mui/material';
+import { FooterContainer } from './FooterContainer';
+import { FooterItem } from './FooterItem';
+import { sections } from './sections';
 
-const Footer: React.FC = () => {
+const Footer = () => {
   return (
     <FooterContainer>
       <Grid container spacing={3}>
@@ -52,20 +53,19 @@ const Footer: React.FC = () => {
                 p: 0,
               }}
             >
-              {section.items.map((item) => (
-                <Stack alignItems="center" direction="row" key={item.title} spacing={2}>
-                  <Box
-                    sx={{
-                      backgroundColor: 'primary.main',
-                      height: 2,
-                      width: 12,
-                    }}
-                  />
-                  <Link href={item.path} color="text.primary" variant="subtitle2">
-                    {item.title}
-                  </Link>
-                </Stack>
-              ))}
+              {section.items &&
+                section.items.map((item) => (
+                  <Stack alignItems="center" direction="row" key={item.title} spacing={2}>
+                    <Box
+                      sx={{
+                        backgroundColor: 'primary.main',
+                        height: 2,
+                        width: 12,
+                      }}
+                    />
+                    <FooterItem item={item} />
+                  </Stack>
+                ))}
             </Stack>
           </Grid>
         ))}

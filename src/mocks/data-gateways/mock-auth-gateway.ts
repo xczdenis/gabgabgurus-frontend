@@ -1,11 +1,15 @@
-import { AbstractAuthGateway } from '@/services/data-gateways/interfaces';
-import { localStorageService } from '@/services';
 import { IUser } from '@/lib/types/user';
 import { contacts } from '@/mocks/data/contacts';
+import { AbstractAuthGateway } from '@/modules/data-gateways/interfaces';
+import { localStorageService } from '@/modules/services';
 
 const fakeUserAdmin: IUser = { ...contacts[0], email: 'admin@admin.ru' };
 
 export class MockAuthGateway extends AbstractAuthGateway {
+  constructor() {
+    super();
+  }
+
   public async me(): Promise<IUser> {
     let user = null;
     try {
@@ -35,9 +39,7 @@ export class MockAuthGateway extends AbstractAuthGateway {
     return null;
   }
 
-  public async signOut(): Promise<boolean> {
-    return true;
-  }
+  public async signOut(): Promise<void> {}
 
   public async sendEmailCode(): Promise<boolean> {
     return true;

@@ -6,7 +6,7 @@ interface IBuildUrlOptions {
   query?: TQueryParams;
 }
 
-export function buildUrl(template: string, options: IBuildUrlOptions = {}): string {
+export const buildUrl = (template: string, options: IBuildUrlOptions = {}): string => {
   if (!template) {
     return '';
   }
@@ -23,7 +23,7 @@ export function buildUrl(template: string, options: IBuildUrlOptions = {}): stri
 
   if (queryParams) {
     const queryString = Object.entries(queryParams)
-      .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`)
+      .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
       .join('&');
 
     if (queryString) {
@@ -32,4 +32,4 @@ export function buildUrl(template: string, options: IBuildUrlOptions = {}): stri
   }
 
   return url;
-}
+};

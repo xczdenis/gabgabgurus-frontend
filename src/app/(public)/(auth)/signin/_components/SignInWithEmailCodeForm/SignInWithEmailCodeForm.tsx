@@ -1,7 +1,7 @@
 import EmailForm from './EmailForm';
 import CodeForm from './CodeForm';
 
-const SignInWithEmailCodeForm: React.FC = () => {
+const SignInWithEmailCodeForm = () => {
   return (
     <>
       <EmailForm />

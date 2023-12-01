@@ -7,7 +7,7 @@ type TOwnProps = {
 
 type TProps = TOwnProps;
 
-export const DropdownTrigger: React.FC<TProps> = (props) => {
+export const DropdownTrigger = (props: TProps) => {
   const { children } = props;
   const { onTriggerEnter, onTriggerLeave } = useContext(DropdownContext);
 

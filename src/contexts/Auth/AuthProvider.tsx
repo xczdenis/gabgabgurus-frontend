@@ -1,24 +1,31 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from '@/lib/hooks/store';
+import { useIam } from '@/lib/hooks/swr/use-iam';
+import { useLastActivityUpdater } from '@/lib/hooks/swr/use-last-activity-updater';
+import { thunks } from '@/store/thunks/auth';
+import { urls } from '@/urls';
+import { usePathname } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
 import { AuthContext } from './context';
 import { TProps } from './types';
-import { thunks } from '@/store/thunks/auth';
 
-const AuthProvider: React.FC<TProps> = ({ children }) => {
+const AuthProvider = (props: TProps) => {
+  const { children } = props;
+  const { user, isError } = useIam();
   const dispatch = useAppDispatch();
   const stateAuth = useAppSelector((state) => state.auth);
+  const pathname = usePathname();
 
-  const initialize = useCallback(async () => {
-    return dispatch(thunks.initializeThunk());
-  }, [dispatch]);
+  useLastActivityUpdater();
 
   useEffect(() => {
-    initialize().catch((error) => {
-      console.error(error.message);
-    });
-  }, [initialize]);
+    if (pathname != urls.oauth.redirectUrl && user) {
+      dispatch(thunks.initializeThunk(user));
+    } else if (isError) {
+      dispatch(thunks.resetAuthState());
+    }
+  }, [dispatch, isError, pathname, user]);
 
   const signIn = useCallback(
     async (email: string, password: string) => {
@@ -34,12 +41,12 @@ const AuthProvider: React.FC<TProps> = ({ children }) => {
     [dispatch]
   );
 
-  const signOut = useCallback(async () => {
+  const signOut = useCallback(() => {
     return dispatch(thunks.signOutThunk());
   }, [dispatch]);
 
   return (
-    <AuthContext.Provider value={{ ...stateAuth, initialize, signIn, signInWithEmailCode, signOut }}>
+    <AuthContext.Provider value={{ ...stateAuth, signIn, signInWithEmailCode, signOut }}>
       {children}
     </AuthContext.Provider>
   );

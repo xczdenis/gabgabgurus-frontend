@@ -1,0 +1,16 @@
+ARG img=node:20.10.0-slim
+ARG work_dir=app
+
+FROM ${img} AS base
+
+ARG work_dir
+
+COPY ./scripts ./scripts
+COPY ./docker/web/scripts ./scripts
+RUN chmod -R 777 ./scripts
+
+RUN apk add --no-cache bash
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
