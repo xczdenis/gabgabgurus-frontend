@@ -353,6 +353,6 @@ config:
 # copy all files from "./deploy/envs" folder to remote server
 .PHONY: send-env
 send-env:
-	scp -i ${SSH_PUBLIC_KEY_PATH} ./deploy/envs ${REMOTE_SERVER_USER}@${REMOTE_SERVER_IP}:${REMOTE_SERVER_PROJECT_ROOT_DIR}
-	scp -r ./deploy/envs ${REMOTE_SERVER_USER}@${REMOTE_SERVER_IP}:${REMOTE_SERVER_PROJECT_ROOT_DIR}
-	#scp -i ${SSH_PUBLIC_KEY_PATH} ./deploy/envs/.env ${REMOTE_SERVER_USER}@${REMOTE_SERVER_IP}:${REMOTE_SERVER_PROJECT_ROOT_DIR}
+	@scp -i ${SSH_PUBLIC_KEY_PATH} ./deploy/envs/.env ${REMOTE_SERVER_USER}@${REMOTE_SERVER_IP}:${REMOTE_SERVER_PROJECT_ROOT_DIR}
+	@scp -i ${SSH_PUBLIC_KEY_PATH} ./deploy/envs/.env.production ${REMOTE_SERVER_USER}@${REMOTE_SERVER_IP}:${REMOTE_SERVER_PROJECT_ROOT_DIR}
+	@scp -i ${SSH_PUBLIC_KEY_PATH} ./deploy/envs/.env.production.local ${REMOTE_SERVER_USER}@${REMOTE_SERVER_IP}:${REMOTE_SERVER_PROJECT_ROOT_DIR}
