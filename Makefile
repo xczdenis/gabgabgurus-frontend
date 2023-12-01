@@ -327,19 +327,19 @@ status-all:
 # remove all stopped containers/unused images/unused volumes/unused networks
 .PHONY: prune prune-с prune-i prune-v prune-n
 prune:
-	$(call log, Remove all stopped containers)
+	$(call log, Docker system prune)
 	docker system prune
 prune-c:
 	$(call log, Remove all stopped containers)
 	docker container prune
 prune-i:
-	$(call log, Remove all stopped containers)
+	$(call log, Remove all unused images)
 	docker images prune
 prune-v:
-	$(call log, Remove all stopped containers)
+	$(call log, Remove all unused volumes)
 	docker volume prune
 prune-n:
-	$(call log, Remove all stopped containers)
+	$(call log, Remove all unused networks)
 	docker network prune
 
 
@@ -348,3 +348,11 @@ prune-n:
 config:
 	$(call log, Docker-compose configuration (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
 	$(call run_docker_compose_for_current_env, ${COMPOSE_PROFILE_DEFAULT} config)
+
+
+# copy all files from "./deploy/envs" folder to remote server
+.PHONY: send-env
+send-env:
+	scp -i ${SSH_PUBLIC_KEY_PATH} ./deploy/envs ${REMOTE_SERVER_USER}@${REMOTE_SERVER_IP}:${REMOTE_SERVER_PROJECT_ROOT_DIR}
+	scp -r ./deploy/envs ${REMOTE_SERVER_USER}@${REMOTE_SERVER_IP}:${REMOTE_SERVER_PROJECT_ROOT_DIR}
+	#scp -i ${SSH_PUBLIC_KEY_PATH} ./deploy/envs/.env ${REMOTE_SERVER_USER}@${REMOTE_SERVER_IP}:${REMOTE_SERVER_PROJECT_ROOT_DIR}

@@ -1,4 +1,0 @@
-FROM node:18-alpine
-USER nextjs
-WORKDIR /app
-CMD stat /app

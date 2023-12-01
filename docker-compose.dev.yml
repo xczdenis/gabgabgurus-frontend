@@ -15,7 +15,7 @@ services:
     proxy:
         <<: *base-dev-service
         volumes:
-            - ./docker/nginx/templates_dev:/etc/nginx/templates:ro
+            - ./deploy/nginx/templates_dev:/etc/nginx/templates:ro
 
 networks:
     gabgabgurus_external:
