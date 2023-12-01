@@ -174,6 +174,18 @@ di:
 	@docker network ls
 
 
+# remove all existing containers, volumes, images
+.PHONY: remove
+remove:
+	@clear
+	@echo "${RED}----------------!!! DANGER !!!----------------"
+	@echo "Вы собираетесь удалить все неиспользуемые образы, контейнеры и тома."
+	@echo "Будут удалены все незапущенные контейнеры, все образы для незапущенных контейнеров и все тома для незапущенных контейнеров"
+	@read -p "${ORANGE}Вы точно уверены, что хотите продолжить? [yes/n]: ${RESET}" TAG \
+	&& if [ "_$${TAG}" != "_yes" ]; then echo "Nothing happened"; exit 1 ; fi
+	docker compose down --rmi all --volumes --remove-orphans && docker system prune -a --volumes --force
+
+
 # create .env and .env.local files if they are not exist
 .PHONY: env
 env:

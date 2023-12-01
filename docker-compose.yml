@@ -3,54 +3,25 @@ x-base-service: &base-service
     restart: on-failure
 
 services:
-#    web:
-#        <<: *base-service
-#        build:
-#            context: .
-#            dockerfile: docker/web/Dockerfile
-#            args:
-#                img: ${NODE_IMG}
-#        env_file:
-#            - .env.production.local
-#            - .env.production
-#        environment:
-#            NODE_ENV: production
-#        profiles:
-#            - default
-#            - web
-
     proxy:
         <<: *base-service
         build:
             context: .
             dockerfile: ./docker/nginx/Dockerfile
             args:
-                - img=${NGINX_IMG}
+                - img=nginx:1.25-alpine-slim
         volumes:
             - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
             - ./docker/nginx/templates:/etc/nginx/templates:ro
             - ./certbot/www/:/var/www/certbot/:ro
             - ./certbot/conf/:/etc/nginx/ssl/:ro
-        env_file:
-            - .env.production.local
-            - .env.production
-        environment:
-            HOSTNAME: web
-            PROXY_LISTEN_PORT: ${PROXY_LISTEN_PORT}
         ports:
-            - ${PROXY_LISTEN_PORT}:${PROXY_LISTEN_PORT}
+            - 80:80
             - 443:443
-#        depends_on:
-#            web:
-#                condition: service_started
-        profiles:
-            - default
 
     certbot:
         <<: *base-service
-        image: ${CERTBOT_IMG}
+        image: certbot/certbot:v2.7.4
         volumes:
             - ./certbot/www/:/var/www/certbot/:rw
             - ./certbot/conf/:/etc/letsencrypt/:rw
-        profiles:
-            - default
