@@ -3,21 +3,21 @@ x-base-service: &base-service
     restart: on-failure
 
 services:
-    web:
-        <<: *base-service
-        build:
-            context: .
-            dockerfile: docker/web/Dockerfile
-            args:
-                img: ${NODE_IMG}
-        env_file:
-            - .env.production.local
-            - .env.production
-        environment:
-            NODE_ENV: production
-        profiles:
-            - default
-            - web
+#    web:
+#        <<: *base-service
+#        build:
+#            context: .
+#            dockerfile: docker/web/Dockerfile
+#            args:
+#                img: ${NODE_IMG}
+#        env_file:
+#            - .env.production.local
+#            - .env.production
+#        environment:
+#            NODE_ENV: production
+#        profiles:
+#            - default
+#            - web
 
     proxy:
         <<: *base-service
@@ -40,9 +40,9 @@ services:
         ports:
             - ${PROXY_LISTEN_PORT}:${PROXY_LISTEN_PORT}
             - 443:443
-        depends_on:
-            web:
-                condition: service_started
+#        depends_on:
+#            web:
+#                condition: service_started
         profiles:
             - default
 
