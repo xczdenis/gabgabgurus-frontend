@@ -4,6 +4,10 @@ server {
 
     server_name   gabgabgurus.ru www.gabgabgurus.ru;
 
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+
     location / {
         root /www/data;
     }
