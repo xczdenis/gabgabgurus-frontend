@@ -47,4 +47,3 @@ services:
             - ./certbot/conf/:/etc/letsencrypt/:rw
         profiles:
             - default
-
