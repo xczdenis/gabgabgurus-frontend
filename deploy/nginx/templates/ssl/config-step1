@@ -1,0 +1,11 @@
+server {
+    listen       80 default_server;
+    listen       [::]:80 default_server;
+
+    server_name   gabgabgurus.ru www.gabgabgurus.ru;
+
+    location / {
+        root /www/data;
+    }
+
+}

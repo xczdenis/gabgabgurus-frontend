@@ -1,18 +1,9 @@
-x-base-service: &base-service
-    platform: ${DOCKER_IMG_PLATFORM:-linux/amd64}
-    restart: on-failure
-
 services:
     proxy:
-        <<: *base-service
-        build:
-            context: .
-            dockerfile: deploy/nginx/Dockerfile
-            args:
-                - img=nginx:1.25-alpine-slim
+        image: nginx:1.25-alpine-slim
         volumes:
             - ./deploy/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-            - ./deploy/nginx/templates:/etc/nginx/templates:ro
+            - ./deploy/nginx/templates/ssl/config-step1:/etc/nginx/templates/site.conf.template:ro
             - ./certbot/www/:/var/www/certbot/:ro
             - ./certbot/conf/:/etc/nginx/ssl/:ro
         ports:
@@ -20,7 +11,6 @@ services:
             - 443:443
 
     certbot:
-        <<: *base-service
         image: certbot/certbot:v2.7.4
         volumes:
             - ./certbot/www/:/var/www/certbot/:rw

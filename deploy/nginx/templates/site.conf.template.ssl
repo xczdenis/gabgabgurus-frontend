@@ -2,7 +2,7 @@ server {
     listen       80 default_server;
     listen       [::]:80 default_server;
 
-    server_name   gabgabgurus.com www.gabgabgurus.com;
+    server_name   gabgabgurus.ru www.gabgabgurus.ru;
     server_tokens off;
 
     location /.well-known/acme-challenge/ {
