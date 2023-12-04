@@ -9,6 +9,10 @@ services:
             - .env
             - .env.production
             - .env.production.local
+        volumes:
+            - ./deploy/envs/.env:/app/.env
+            - ./deploy/envs/.env.production:/app/.env.production
+            - ./deploy/envs/.env.production.local:/app/.env.production.local
         environment:
             NODE_ENV: production
         profiles:
