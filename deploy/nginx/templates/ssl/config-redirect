@@ -10,7 +10,7 @@ server {
     }
 
     location / {
-        return 301 https://gabgabgurus.com$request_uri;
+        return 301 https://gabgabgurus.ru$request_uri;
     }
 
 }
