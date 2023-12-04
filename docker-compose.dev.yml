@@ -6,6 +6,11 @@ x-base-dev-service: &base-dev-service
 services:
     web:
         <<: *base-dev-service
+        build:
+            context: .
+            dockerfile: deploy/web/Dockerfile
+            args:
+                img: ${NODE_IMG}
         ports:
             - ${PORT}:3000
         networks:
