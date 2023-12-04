@@ -1,3 +1,4 @@
 services:
     web:
         image: ${WEB_APP_IMG}
+        command: ["npm", "start"]
