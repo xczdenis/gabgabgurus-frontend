@@ -25,6 +25,6 @@ server {
     ssl_certificate_key /etc/nginx/ssl/live/gabgabgurus.ru/privkey.pem;
 
     location / {
-        proxy_pass http://gabgabgurus.ru;
+        proxy_pass /var/www/data/index.html;
     }
  }
