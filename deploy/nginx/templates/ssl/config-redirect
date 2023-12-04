@@ -17,14 +17,14 @@ server {
 
 server {
     listen 443 ssl;
-     listen [::]:443 ssl;
+    listen [::]:443 ssl;
 
-     server_name gabgabgurus.com;
+    server_name gabgabgurus.ru;
 
-     ssl_certificate /etc/nginx/ssl/live/gabgabgurus.com/fullchain.pem;
-     ssl_certificate_key /etc/nginx/ssl/live/gabgabgurus.com/privkey.pem;
+    ssl_certificate /etc/nginx/ssl/live/gabgabgurus.ru/fullchain.pem;
+    ssl_certificate_key /etc/nginx/ssl/live/gabgabgurus.ru/privkey.pem;
 
-     location / {
-         root /www/data;
-     }
+    location / {
+        proxy_pass http://gabgabgurus.ru;
+    }
  }
