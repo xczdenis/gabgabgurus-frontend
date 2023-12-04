@@ -174,18 +174,6 @@ di:
 	@docker network ls
 
 
-# remove all existing containers, volumes, images
-.PHONY: remove
-remove:
-	@clear
-	@echo "${RED}----------------!!! DANGER !!!----------------"
-	@echo "Вы собираетесь удалить все неиспользуемые образы, контейнеры и тома."
-	@echo "Будут удалены все незапущенные контейнеры, все образы для незапущенных контейнеров и все тома для незапущенных контейнеров"
-	@read -p "${ORANGE}Вы точно уверены, что хотите продолжить? [yes/n]: ${RESET}" TAG \
-	&& if [ "_$${TAG}" != "_yes" ]; then echo "Nothing happened"; exit 1 ; fi
-	docker compose down --rmi all --volumes --remove-orphans && docker system prune -a --volumes --force && docker network prune
-
-
 # create .env and .env.local files if they are not exist
 .PHONY: env
 env:
@@ -201,16 +189,38 @@ env:
     fi
 
 
+# remove all existing containers, volumes, images
+.PHONY: remove
+remove:
+	@clear
+	@echo "${RED}----------------!!! DANGER !!!----------------"
+	@echo "Вы собираетесь удалить все неиспользуемые образы, контейнеры и тома."
+	@echo "Будут удалены все незапущенные контейнеры, все образы для незапущенных контейнеров и все тома для незапущенных контейнеров"
+	@read -p "${ORANGE}Вы точно уверены, что хотите продолжить? [yes/n]: ${RESET}" TAG \
+	&& if [ "_$${TAG}" != "_yes" ]; then echo "Nothing happened"; exit 1 ; fi
+	docker compose down --rmi all --volumes --remove-orphans && docker system prune -a --volumes --force && docker network prune
+
+
+# build all docker images
+.PHONY: build build-profile
+build:
+	$(call log, Build all images (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
+	$(call run_docker_compose_for_current_env, --profile default build)
+build-profile:
+	$(call log, Build images for profile ${p} (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
+	$(call run_docker_compose_for_current_env, --profile ${p} build)
+
+
 # stop and remove all running containers
-.PHONY: down _down-prod _down-dev
+.PHONY: down down-prod down-dev
 down:
 	$(call log, Down containers (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
-	@make _down-prod
-	@make _down-dev
-_down-prod:
+	@make down-prod
+	@make down-dev
+down-prod:
 	$(call run_docker_compose_for_env, "${PREFIX_PROD}", "${DOCKER_COMPOSE_PROD_FILE}", "${COMPOSE_PROFILE_DEFAULT} down")
 	$(call run_docker_compose_for_env, "_", "${DOCKER_COMPOSE_PROD_FILE}", "${COMPOSE_PROFILE_DEFAULT} down")
-_down-dev:
+down-dev:
 	$(call run_docker_compose_for_env, "${PREFIX_DEV}", "${DOCKER_COMPOSE_DEV_FILE}", "${COMPOSE_PROFILE_DEFAULT} down")
 	$(call run_docker_compose_for_env, "_", "${DOCKER_COMPOSE_DEV_FILE}", "${COMPOSE_PROFILE_DEFAULT} down")
 
@@ -222,11 +232,11 @@ run: down
 	$(call run_docker_compose_for_current_env, --profile default ${COMPOSE_OPTION_START_AS_DEMON} ${s})
 
 
-# build and run docker containers in demon mode for db profile
-.PHONY: run-web
-run-db: down
-	$(call log, Run containers for db profile (${CURRENT_ENVIRONMENT_PREFIX}))
-	$(call run_docker_compose_for_current_env, --profile web ${COMPOSE_OPTION_START_AS_DEMON} ${s})
+# run docker containers in demon mode
+.PHONY: up
+up:
+	$(call log, Run containers (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
+	$(call run_docker_compose_for_current_env, --profile default up -d)
 
 
 # show service's logs (e.g.: make logs s=proxy)
@@ -285,35 +295,17 @@ stopall:
 	$(call run_docker_compose_for_current_env, --profile default stop)
 
 
-# start services
-.PHONY: start starts
+# start services (e.g.: start s=redis)
+.PHONY: start _start
 start:
-	@read -p "(${CURRENT_ENVIRONMENT_PREFIX}) ${ORANGE}Service name (press Enter to start all services): ${RESET}" _TAG && \
-	if [ "_$${_TAG}" != "_" ]; then \
-		make starts s="$${_TAG}"; \
+	@if [ -z "${s}" ]; then \
+		read -p "${ORANGE}Container name: ${RESET}" _TAG && \
+		make _start s="$${_TAG}"; \
 	else \
-	    make starts; \
+	    make _start s="${s}"; \
 	fi
-starts:
-	$(call log, Start containers (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
+_start:
 	$(call run_docker_compose_for_current_env, --profile default start ${s})
-
-
-# build containers
-.PHONY: build build-profile build-all
-build:
-	@read -p "(${CURRENT_ENVIRONMENT_PREFIX}) ${ORANGE}Profile name (press Enter to build images for all profiles): ${RESET}" _TAG && \
-	if [ "_$${_TAG}" != "_" ]; then \
-		make build-profile p="$${_TAG}"; \
-	else \
-	    make build-all; \
-	fi
-build-profile:
-	$(call log, Build images for profile ${p} (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
-	$(call run_docker_compose_for_current_env, --profile ${p} build)
-build-all:
-	$(call log, Build all images (${RED}${CURRENT_ENVIRONMENT_PREFIX}${INFO})${RESET})
-	$(call run_docker_compose_for_current_env, --profile default build)
 
 
 # show docker-compose status
@@ -327,18 +319,48 @@ status-all:
 # remove all stopped containers/unused images/unused volumes/unused networks
 .PHONY: prune prune-с prune-i prune-v prune-n
 prune:
+	@clear
+	@echo "${DANGER}----------------!!! DANGER !!!----------------"
+	@echo "Будет выполнена команда <${INFO}docker system prune${DANGER}>."
+	@echo "${DANGER}Будут удалены все не запущенные контейнеры, сети, зависшие образы и очищен кэш."
+	@read -p "${WARNING}Вы точно уверены, что хотите продолжить? [yes/n]: ${RESET}" TAG \
+	&& if [ "_$${TAG}" != "_yes" ]; then echo "Nothing happened"; exit 1 ; fi
 	$(call log, Docker system prune)
 	docker system prune
 prune-c:
+	@clear
+	@echo "${DANGER}----------------!!! DANGER !!!----------------"
+	@echo "Будет выполнена команда <${INFO}docker container prune${DANGER}>."
+	@echo "${DANGER}Будут удалены все не запущенные контейнеры"
+	@read -p "${WARNING}Вы точно уверены, что хотите продолжить? [yes/n]: ${RESET}" TAG \
+	&& if [ "_$${TAG}" != "_yes" ]; then echo "Nothing happened"; exit 1 ; fi
 	$(call log, Remove all stopped containers)
 	docker container prune
 prune-i:
+	@clear
+	@echo "${DANGER}----------------!!! DANGER !!!----------------"
+	@echo "Будет выполнена команда <${INFO}docker images prune${DANGER}>."
+	@echo "${DANGER}Будут удалены все зависшие образы"
+	@read -p "${WARNING}Вы точно уверены, что хотите продолжить? [yes/n]: ${RESET}" TAG \
+	&& if [ "_$${TAG}" != "_yes" ]; then echo "Nothing happened"; exit 1 ; fi
 	$(call log, Remove all unused images)
 	docker images prune
 prune-v:
+	@clear
+	@echo "${DANGER}----------------!!! DANGER !!!----------------"
+	@echo "Будет выполнена команда <${INFO}docker volume prune${DANGER}>."
+	@echo "${DANGER}Будут удалены все не используемые тома"
+	@read -p "${WARNING}Вы точно уверены, что хотите продолжить? [yes/n]: ${RESET}" TAG \
+	&& if [ "_$${TAG}" != "_yes" ]; then echo "Nothing happened"; exit 1 ; fi
 	$(call log, Remove all unused volumes)
 	docker volume prune
 prune-n:
+	@clear
+	@echo "${DANGER}----------------!!! DANGER !!!----------------"
+	@echo "Будет выполнена команда <${INFO}docker network prune${DANGER}>."
+	@echo "${DANGER}Будут удалены не используемые сети"
+	@read -p "${WARNING}Вы точно уверены, что хотите продолжить? [yes/n]: ${RESET}" TAG \
+	&& if [ "_$${TAG}" != "_yes" ]; then echo "Nothing happened"; exit 1 ; fi
 	$(call log, Remove all unused networks)
 	docker network prune
 
