@@ -2,9 +2,7 @@ name: Deploy-only workflow
 
 env:
     ENVIRONMENT: production
-    PYTHON_IMG: python:3.11-slim
-    APP_IMG_NAME: ggg-b:latest
-    SERVER_PROJECT_ROOT_DIR: /home/denis/gabgabgurus/gabgabgurus-backend
+    APP_IMG_NAME: ggg-w:latest
 
 on:
     pull_request:
@@ -23,7 +21,7 @@ jobs:
             -   name: 🚀 Deploy to Remote Server
                 uses: appleboy/ssh-action@v1.0.0
                 env:
-                    SERVER_PROJECT_ROOT_DIR: ${{ env.SERVER_PROJECT_ROOT_DIR }}
+                    SERVER_PROJECT_ROOT_DIR: ${{ secrets.SERVER_PROJECT_ROOT_DIR }}
                     APP_IMG: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APP_IMG_NAME }}
                     COMPOSE_PROJECT_NAME: ${{ secrets.COMPOSE_PROJECT_NAME }}
                 with:
@@ -34,9 +32,11 @@ jobs:
                     envs: SERVER_PROJECT_ROOT_DIR, APP_IMG, COMPOSE_PROJECT_NAME
                     script_stop: true
                     script: |
+                        ls -al
                         cd $SERVER_PROJECT_ROOT_DIR
-                        git pull
-                        docker pull $APP_IMG
-                        COMPOSE_PROJECT_NAME=$COMPOSE_PROJECT_NAME docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile default down
-                        COMPOSE_PROJECT_NAME=$COMPOSE_PROJECT_NAME docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile default up -d --build
-                        docker system prune -f
+                        ls -al
+#                        git pull
+#                        docker pull $APP_IMG
+#                        COMPOSE_PROJECT_NAME=$COMPOSE_PROJECT_NAME docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile default down
+#                        COMPOSE_PROJECT_NAME=$COMPOSE_PROJECT_NAME docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile default up -d --build
+#                        docker system prune -f
