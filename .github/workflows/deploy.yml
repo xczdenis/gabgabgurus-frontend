@@ -3,7 +3,7 @@ name: Deploy workflow
 env:
     ENVIRONMENT: production
     NODE_IMG: node:20.10.0-alpine
-    APP_IMG_NAME: ggg-w:latest
+    WEB_APP_IMG_NAME: ggg-w:latest
 
 on:
     pull_request:
@@ -34,7 +34,7 @@ jobs:
                     context: .
                     file: ./deploy/web/Dockerfile
                     push: true
-                    tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APP_IMG_NAME }}
+                    tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.WEB_APP_IMG_NAME }}
                     build-args: |
                         env=${{ env.ENVIRONMENT }}
                         img=${{ env.NODE_IMG }}
