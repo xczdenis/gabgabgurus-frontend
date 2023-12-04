@@ -17,3 +17,4 @@ services:
         volumes:
             - /home/denis/gabgabgurus/certbot/www/:/var/www/certbot/:rw
             - /home/denis/gabgabgurus/certbot/conf/:/etc/letsencrypt/:rw
+            - /home/denis/var/log/letsencrypt:/var/log/letsencrypt
