@@ -35,4 +35,4 @@ ENV NODE_ENV=production \
 
 COPY --from=builder /${work_dir} ./
 
-CMD ["npm", "start"]
+#CMD ["npm", "start"]

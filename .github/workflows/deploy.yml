@@ -3,7 +3,7 @@ name: Deploy workflow
 env:
     ENVIRONMENT: production
     NODE_IMG: node:20.10.0-alpine
-    APP_IMG_NAME: ggg-b:latest
+    APP_IMG_NAME: ggg-w:latest
 
 on:
     pull_request:
