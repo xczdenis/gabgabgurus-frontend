@@ -52,8 +52,8 @@ services:
 
 volumes:
     ggg_backend_static:
-        external:
-            name: ggg_backend_static
+        external: true
+        name: ggg_backend_static
 
 networks:
     ggg_external:
