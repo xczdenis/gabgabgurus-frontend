@@ -202,6 +202,34 @@ remove:
 	docker system prune -a --volumes --force && docker network prune
 
 
+# create shared network and shared volume for collect backend static files
+.PHONY: docker-prepare
+.PHONY: docker-prepare
+docker-prepare:
+	@if [ -z ${GGG_EXTERNAL_NETWORK} ]; then \
+		echo "${DANGER}Error: 'GGG_EXTERNAL_NETWORK' is not set.${RESET}"; \
+		exit 1; \
+	fi
+	@if [ -z ${GGG_BACKEND_STATIC} ]; then \
+		echo "${DANGER}Error: 'GGG_BACKEND_STATIC' is not set.${RESET}"; \
+		exit 1; \
+	fi
+	@echo "${INFO}Create shared docker network ${ORANGE}${GGG_EXTERNAL_NETWORK}${RESET}:"
+	@if ! docker network ls | grep -q ${GGG_EXTERNAL_NETWORK}; then \
+		docker network create ${GGG_EXTERNAL_NETWORK}; \
+		echo ${SUCCESS}Shared docker network ${GGG_EXTERNAL_NETWORK} created.${RESET}; \
+	else \
+		echo ${INFO}Shared docker network ${ORANGE}${GGG_EXTERNAL_NETWORK}${INFO} already exists.${RESET}; \
+	fi
+	@echo "${INFO}Create shared docker volume ${ORANGE}${GGG_BACKEND_STATIC}${RESET}:"
+	@if ! docker volume ls | grep -q ${GGG_BACKEND_STATIC}; then \
+		docker volume create ${GGG_BACKEND_STATIC}; \
+		echo ${SUCCESS}Shared docker volume ${GGG_BACKEND_STATIC} created.${RESET}; \
+	else \
+		echo ${INFO}Shared docker volume ${ORANGE}${GGG_BACKEND_STATIC}${INFO} already exists.${RESET}; \
+	fi
+
+
 # build all docker images
 .PHONY: build build-profile
 build:

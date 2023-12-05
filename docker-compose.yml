@@ -33,6 +33,7 @@ services:
             - ./deploy/nginx/templates:/etc/nginx/templates:ro
             - ./certbot/www/:/var/www/certbot/:ro
             - ./certbot/conf/:/etc/nginx/ssl/:ro
+            - ggg_backend_static:/backend/static
         depends_on:
             web:
                 condition: service_started
@@ -48,6 +49,11 @@ services:
         volumes:
             - ./certbot/www/:/var/www/certbot/:rw
             - ./certbot/conf/:/etc/letsencrypt/:rw
+
+volumes:
+    ggg_backend_static:
+        external:
+            name: ggg_backend_static
 
 networks:
     ggg_external:

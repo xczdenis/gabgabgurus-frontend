@@ -52,4 +52,9 @@ server {
     location /api/ {
         proxy_pass http://backend_upstream;
     }
+
+    location /api/static {
+        alias /backend/static;
+        expires 90d;
+    }
 }
