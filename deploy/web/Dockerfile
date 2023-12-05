@@ -1,14 +1,17 @@
-ARG img=node:20.10.0-alpine
-ARG work_dir=app
+ARG IMG=node:20.10.0-alpine
+ARG WORK_DIR=app
+ARG BASE_API_URL
+ARG BASE_WS_URL
 
-FROM ${img} AS base
+FROM ${IMG} AS base
 
-ARG work_dir
-ARG install_deps_cmd
+ARG WORK_DIR
+ARG BASE_API_URL
+ARG BASE_API_URL
 
 
 FROM base AS deps
-WORKDIR /${work_dir}
+WORKDIR /${WORK_DIR}
 
 COPY package.json package-lock.json ./
 
@@ -17,25 +20,28 @@ RUN apk add --no-cache libc6-compat \
 
 
 FROM base AS builder
-WORKDIR /${work_dir}
+WORKDIR /${WORK_DIR}
 
-COPY --from=deps /${work_dir}/node_modules ./node_modules
+COPY --from=deps /${WORK_DIR}/node_modules ./node_modules
 COPY . .
 
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED=1 \
+    NEXT_PUBLIC_BASE_API_URL=${BASE_API_URL} \
+    NEXT_PUBLIC_BASE_WS_URL=${BASE_API_URL}
 
 RUN echo NEXT_PUBLIC_BASE_API_URL=$NEXT_PUBLIC_BASE_API_URL
+RUN echo NEXT_PUBLIC_BASE_WS_URL=$NEXT_PUBLIC_BASE_WS_URL
 
 RUN npm run build
 
 
 FROM base AS runner
-WORKDIR /${work_dir}
+WORKDIR /${WORK_DIR}
 
 ENV NODE_ENV=production \
     NEXT_TELEMETRY_DISABLED=1
 
 
-COPY --from=builder /${work_dir} ./
+COPY --from=builder /${WORK_DIR} ./
 
 CMD ["npm", "start"]
