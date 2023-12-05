@@ -1,9 +1,10 @@
 name: Deploy workflow
 
 env:
-    ENVIRONMENT: production
     NODE_IMG: node:20.10.0-alpine
     WEB_APP_IMG_NAME: ggg-w:latest
+    NEXT_PUBLIC_BASE_API_URL: ${{ secrets.BASE_API_URL }}
+    NEXT_PUBLIC_BASE_WS_URL: ${{ secrets.BASE_WS_URL }}
 
 on:
     pull_request:
@@ -36,5 +37,4 @@ jobs:
                     push: true
                     tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.WEB_APP_IMG_NAME }}
                     build-args: |
-                        env=${{ env.ENVIRONMENT }}
                         img=${{ env.NODE_IMG }}
