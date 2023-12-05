@@ -57,4 +57,14 @@ server {
         alias /backend/static;
         expires 90d;
     }
+
+    location /ws/ {
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_redirect off;
+
+        proxy_pass http://backend_upstream;
+    }
+
 }
