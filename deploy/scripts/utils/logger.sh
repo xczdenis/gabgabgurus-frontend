@@ -7,25 +7,25 @@
 get_color_for_log_level() {
     case $1 in
     info)
-        printf "${color_info}"
+        printf "%s" "${color_info}"
         ;;
     debug)
-        printf "${color_debug}"
+        printf "%s" "${color_debug}"
         ;;
     success)
-        printf "${color_success}"
+        printf "%s" "${color_success}"
         ;;
     error)
-        printf "${color_error}"
+        printf "%s" "${color_error}"
         ;;
     white)
         ${color_white}
         ;;
     reset)
-        printf "${color_reset}"
+        printf "%s" "${color_reset}"
         ;;
     *)
-        printf "${color_reset}"
+        printf "%s" "${color_reset}"
         ;;
     esac
 }
@@ -50,6 +50,7 @@ get_log_level_text_part() {
     esac
 }
 
+# shellcheck disable=SC2154
 log() (
     log_level=$1
     text=$2
@@ -82,6 +83,7 @@ log_error() (
     log "error" "${text}"
 )
 
+# shellcheck disable=SC2154
 log_header() (
     text=${1}
 
