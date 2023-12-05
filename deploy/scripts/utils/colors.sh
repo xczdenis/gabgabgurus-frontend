@@ -1,6 +1,6 @@
 #!/bin/bash
 
-
+# shellcheck disable=SC2034
 color_red=$(printf "\033[31m")
 color_green=$(printf "\033[32m")
 color_blue=$(printf "\033[94m")
