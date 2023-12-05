@@ -3,7 +3,7 @@
 # Exit in case of any error
 set -e
 
-. ./scripts/logger.sh
+. ./utils/logger.sh
 
 log_info "Go to project root directory"
 cd "$SERVER_PROJECT_ROOT_DIR"
