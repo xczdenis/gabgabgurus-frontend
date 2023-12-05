@@ -39,6 +39,4 @@ yarn-error.log*
 next-env.d.ts
 
 # envs
-.env
-.env.production
-.env.production.local
+.env*

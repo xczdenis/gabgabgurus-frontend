@@ -11,18 +11,20 @@ services:
             dockerfile: deploy/web/Dockerfile
             args:
                 img: ${NODE_IMG}
+        environment:
+            NODE_ENV: development
+        command: ["npm", "run", "dev"]
+        volumes:
+            - ./.env:/app/.env
+            - ./.env.development.local:/app/.env.development.local
         ports:
-            - ${PORT}:3000
-        networks:
-            - default
-            - gabgabgurus_external
+            - ${PORT}:${PORT}
 
     proxy:
         <<: *base-dev-service
+        env_file:
+            - .env.development.local
+        ports:
+            - ${PROXY_LISTEN_PORT}:${PROXY_LISTEN_PORT}
         volumes:
             - ./deploy/nginx/templates_dev:/etc/nginx/templates:ro
-
-networks:
-    gabgabgurus_external:
-        external: true
-        name: gabgabgurus_external

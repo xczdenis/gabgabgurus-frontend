@@ -1,4 +1,13 @@
 services:
     web:
         image: ${WEB_APP_IMG}
-        command: ["npm", "start"]
+        volumes:
+            - ./deploy/envs/.env:/app/.env
+            - ./deploy/envs/.env.production.local:/app/.env.development.local
+
+    proxy:
+        env_file:
+            - .env.production.local
+        ports:
+            - 80:80
+            - 443:443

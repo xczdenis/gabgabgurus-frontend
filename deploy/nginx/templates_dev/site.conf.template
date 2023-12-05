@@ -4,9 +4,14 @@ upstream web_upstream {
   server ${HOSTNAME}:${PORT};
 }
 
+upstream backend_upstream {
+  server ${BACKEND_HOST}:${BACKEND_PORT};
+}
+
 server {
     listen       ${PROXY_LISTEN_PORT} default_server;
     listen       [::]:${PROXY_LISTEN_PORT} default_server;
+
     server_name  _;
 
     location /_next/static {
@@ -29,6 +34,10 @@ server {
 
     location / {
         proxy_pass http://web_upstream;
+    }
+
+    location /api/ {
+        proxy_pass http://backend_upstream;
     }
 
 }

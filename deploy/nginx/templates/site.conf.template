@@ -4,6 +4,10 @@ upstream web_upstream {
   server ${HOSTNAME}:${PORT};
 }
 
+upstream backend_upstream {
+  server ${BACKEND_HOST}:${BACKEND_PORT};
+}
+
 server {
     listen       80 default_server;
     listen       [::]:80 default_server;
@@ -43,5 +47,9 @@ server {
 
     location / {
         proxy_pass http://web_upstream;
+    }
+
+    location /api/ {
+        proxy_pass http://backend_upstream;
     }
 }

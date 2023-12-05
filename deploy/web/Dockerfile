@@ -4,6 +4,7 @@ ARG work_dir=app
 FROM ${img} AS base
 
 ARG work_dir
+ARG install_deps_cmd
 
 
 FROM base AS deps
@@ -12,7 +13,7 @@ WORKDIR /${work_dir}
 COPY package.json package-lock.json ./
 
 RUN apk add --no-cache libc6-compat \
-    && npm ci --production
+    && npm ci --omit=dev
 
 
 FROM base AS builder
@@ -35,4 +36,4 @@ ENV NODE_ENV=production \
 
 COPY --from=builder /${work_dir} ./
 
-#CMD ["npm", "start"]
+CMD ["npm", "start"]
