@@ -1,8 +1,9 @@
 #!/bin/bash
 
 
-. ./utils/colors.sh
+. ./deploy/scripts/utils/colors.sh
 
+# shellcheck disable=SC2154
 get_color_for_log_level() {
     case $1 in
     info)
