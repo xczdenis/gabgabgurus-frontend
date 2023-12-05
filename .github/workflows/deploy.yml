@@ -3,8 +3,6 @@ name: Deploy workflow
 env:
     NODE_IMG: node:20.10.0-alpine
     WEB_APP_IMG_NAME: ggg-w:latest
-    NEXT_PUBLIC_BASE_API_URL: ${{ secrets.BASE_API_URL }}
-    NEXT_PUBLIC_BASE_WS_URL: ${{ secrets.BASE_WS_URL }}
 
 on:
     pull_request:
@@ -19,6 +17,9 @@ jobs:
         steps:
             -   name: 📥 Check out the repo
                 uses: actions/checkout@v4
+
+            -   name: ⚙️ Create .env file
+                run: printf "${{ secrets.ENV_FILE }}" >> .env
 
             -   name: 🔑 Login to Docker Hub
                 uses: docker/login-action@v3
