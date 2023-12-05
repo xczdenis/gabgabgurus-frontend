@@ -2,8 +2,7 @@ services:
     web:
         image: ${WEB_APP_IMG}
         volumes:
-            - ./deploy/envs/.env:/app/.env
-            - ./deploy/envs/.env.production.local:/app/.env.development.local
+            - ./.env.production.local:/app/.env.production.local
 
     proxy:
         env_file:

@@ -18,6 +18,8 @@ services:
             - .env
         environment:
             NODE_ENV: production
+        volumes:
+            - ./.env:/app/.env
         command: ["npm", "start"]
         profiles:
             - default

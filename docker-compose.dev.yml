@@ -15,7 +15,6 @@ services:
             NODE_ENV: development
         command: ["npm", "run", "dev"]
         volumes:
-            - ./.env:/app/.env
             - ./.env.development.local:/app/.env.development.local
         ports:
             - ${PORT}:${PORT}
