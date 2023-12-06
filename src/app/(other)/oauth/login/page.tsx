@@ -17,11 +17,6 @@ export default function Home() {
   const code = searchParams.get('code');
   const { user } = useOAuthSignIn({ state, code });
 
-  console.log('searchParams =', searchParams);
-  console.log('state =', state);
-  console.log('code =', code);
-  console.log('user =', user);
-
   const { revalidate } = useIam();
   const { isAuthenticated } = useAuth();
   const router = useRouter();
@@ -36,25 +31,6 @@ export default function Home() {
       });
     }
   }, [dispatch, isAuthenticated, revalidate, router, user]);
-  // useEffect(() => {
-  //   console.log('useEffect. isAuthenticated =', isAuthenticated);
-  //   if (state && code && !isAuthenticated) {
-  //     console.log('useEffect. signIn');
-  //     oAuthService.signIn({ state, code }).then((user) => {
-  //       dispatch(thunks.initializeThunk(user))
-  //         .then(async () => {
-  //           await revalidate();
-  //           showToastSuccess(`Welcome ${user.firstName}!`, '👏');
-  //           router.push(urls.index);
-  //         })
-  //         .catch((error) => {
-  //           console.log('An error occurred');
-  //           console.error(error);
-  //           showToastError();
-  //         });
-  //     });
-  //   }
-  // }, [code, dispatch, isAuthenticated, revalidate, router, state]);
 
   return <Preloader />;
 }
