@@ -58,4 +58,12 @@ export class KyChatGateway extends AbstractChannelGateway {
     const json = convertKeysCamelToSnake({ channelId });
     await this._apiClient.request('post', url, { json });
   }
+
+  public async markChannelMessagesAsRead(messageIds: TDefaultId[], recipientId?: TDefaultId): Promise<void> {
+    if (messageIds.length > 0 && recipientId) {
+      const url = this._buildUrl('messages/mark-as-read');
+      const json = convertKeysCamelToSnake({ messageIds, recipientId });
+      await this._apiClient.request('patch', url, { json });
+    }
+  }
 }

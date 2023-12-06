@@ -8,6 +8,7 @@ interface IChatState {
   next: string | null;
   isBlocked: boolean;
   channelId: TDefaultId | null;
+  socketIsOpen: boolean;
   lastActivity: number;
   lastActivityOfPeer: number;
 }
@@ -17,6 +18,7 @@ const initialState: IChatState = {
   next: null,
   isBlocked: false,
   channelId: null,
+  socketIsOpen: false,
   lastActivity: 0,
   lastActivityOfPeer: 0,
 };
@@ -41,6 +43,9 @@ const reducers = {
   },
   setChannelId(state: IChatState, action: PayloadAction<TDefaultId>) {
     state.channelId = action.payload;
+  },
+  setSocketIsOpen(state: IChatState, action: PayloadAction<boolean>) {
+    state.socketIsOpen = action.payload;
   },
   setLastActivity(state: IChatState, action: PayloadAction<number>) {
     state.lastActivity = action.payload;

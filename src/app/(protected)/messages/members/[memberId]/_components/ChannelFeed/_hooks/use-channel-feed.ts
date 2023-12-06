@@ -4,10 +4,11 @@ import { TDefaultId } from '@/lib/types/common';
 import { showToastError } from '@/lib/utils/show-toast-error';
 import { thunks } from '@/store/thunks/chat';
 import { useCallback, useEffect } from 'react';
-import { markMessagesAsRead } from '../_utils/mark-messages-as-read';
+import { markUnreadMessagesAsRead } from '../_utils/mark-messages-as-read';
 
 export const useChannelFeed = (userId: TDefaultId) => {
   const channelId = useAppSelector((state) => state.chat.channelId);
+  const socketIsOpen = useAppSelector((state) => state.chat.socketIsOpen);
   const dispatch = useAppDispatch();
 
   const downloadMessages = useCallback(
@@ -20,7 +21,7 @@ export const useChannelFeed = (userId: TDefaultId) => {
           showToastError();
         }
         if (messagePagination) {
-          markMessagesAsRead(messagePagination, userId);
+          markUnreadMessagesAsRead(messagePagination, userId);
         }
       }
     },
@@ -28,8 +29,10 @@ export const useChannelFeed = (userId: TDefaultId) => {
   );
 
   useEffect(() => {
-    downloadMessages('set', channelId);
-  }, [channelId, downloadMessages]);
+    if (channelId && socketIsOpen) {
+      downloadMessages('set', channelId);
+    }
+  }, [channelId, downloadMessages, socketIsOpen]);
 
   return { downloadMessages };
 };

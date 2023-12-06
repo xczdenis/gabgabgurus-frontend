@@ -26,4 +26,5 @@ export abstract class AbstractChannelGateway extends AbstractBaseGateway {
   public abstract getMessages(params: TGetMessagesParams): Promise<TMessagePagination>;
   public abstract sendMessage(channelId: TDefaultId, text: string): Promise<TMessage>;
   public abstract deliverMessages(channelId: TDefaultId): Promise<void>;
+  public abstract markChannelMessagesAsRead(messageIds: TDefaultId[], recipientId?: TDefaultId): Promise<void>;
 }

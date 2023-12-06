@@ -80,6 +80,10 @@ const markMessagesAsRead = (messageIds: TDefaultId[]) => async (dispatch: Dispat
   dispatch(slice.actions.markMessagesAsRead(messageIds));
 };
 
+const setSocketIsOpen = (socketIsOpen: boolean) => async (dispatch: Dispatch) => {
+  dispatch(slice.actions.setSocketIsOpen(socketIsOpen));
+};
+
 export const thunks = {
   fetchMessages,
   sendMessage,
@@ -91,4 +95,5 @@ export const thunks = {
   setLastActivity,
   setLastActivityOfPeer,
   markMessagesAsRead,
+  setSocketIsOpen,
 };

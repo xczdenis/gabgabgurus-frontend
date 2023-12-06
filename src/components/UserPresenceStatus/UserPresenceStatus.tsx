@@ -25,7 +25,6 @@ const UserPresenceStatus = (props: TProps) => {
       } else {
         setStatus(formatDate(lastActivity));
       }
-      setStatus(formatDate(lastActivity));
     }
   }, [lastActivity]);
 

@@ -79,4 +79,8 @@ export class ChannelService {
   public sendMessage = (channelId: TDefaultId, text: string): Promise<TMessage> => {
     return this._chatGateway.sendMessage(channelId, text);
   };
+
+  public markChannelMessagesAsRead = (messageIds: TDefaultId[], recipientId?: TDefaultId): Promise<void> => {
+    return this._chatGateway.markChannelMessagesAsRead(messageIds, recipientId);
+  };
 }

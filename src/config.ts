@@ -47,11 +47,11 @@ export const cmpInfo = {
 };
 
 export const paginationConfig = {
-  defaultPageSize: 3,
-  chatsPageSize: 5,
-  messagesPageSize: 2,
+  defaultPageSize: 20,
+  chatsPageSize: 20,
+  messagesPageSize: 40,
   notificationsPageSize: 5,
-  searchPageSize: 2,
+  searchPageSize: 20,
 };
 
 export const baseSWRConfig: SWRConfiguration = {
