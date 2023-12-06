@@ -3,8 +3,8 @@ import { IUser } from '@/lib/types/user';
 import { AbstractBaseGateway } from './base-gateway';
 
 export type TSignInParams = {
-  code?: string;
-  state?: string;
+  code?: string | null;
+  state?: string | null;
 };
 
 export abstract class AbstractOAuthGateway extends AbstractBaseGateway {
