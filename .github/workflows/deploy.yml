@@ -33,6 +33,8 @@ jobs:
                     context: .
                     file: ./deploy/web/Dockerfile
                     push: true
+                    cache-from: type=gha
+                    cache-to: type=gha,mode=max
                     tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.WEB_APP_IMG_NAME }}
                     build-args: |
                         img=${{ env.NODE_IMG }}
