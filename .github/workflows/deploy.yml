@@ -35,7 +35,7 @@ jobs:
                     push: true
                     cache-from: type=gha
                     cache-to: type=gha,mode=max
-                    tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.WEB_APP_IMG_NAME }}
+                    tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APP_IMG_NAME }}
                     build-args: |
                         img=${{ env.NODE_IMG }}
                         BASE_API_URL=${{ secrets.BASE_API_URL }}
