@@ -1,7 +1,6 @@
-name: Deploy-only workflow
+name: Run docker on a remote server
 
 env:
-    ENVIRONMENT: production
     APP_IMG_NAME: ggg-w:latest
 
 on:
