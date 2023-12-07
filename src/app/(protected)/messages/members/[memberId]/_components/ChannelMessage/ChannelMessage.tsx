@@ -4,13 +4,28 @@ import { ChannelMessageStatus } from './ChannelMessageStatus';
 import { ChannelMessageTime } from './ChannelMessageTime';
 import { TProps } from './types';
 
-export const ChannelMessage = ({ createdAt, authorAvatar, authorName, text, isMine, status }: TProps) => {
+export const ChannelMessage = ({
+  createdAt,
+  authorAvatar,
+  authorName,
+  text,
+  isMine,
+  status,
+  messagesContainerRef,
+}: TProps) => {
+  const scrollToParentTop = () => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <Box
       sx={{
         display: 'flex',
         alignItems: isMine ? 'flex-end' : 'flex-start',
       }}
+      className="parent-class"
     >
       <Stack
         alignItems="flex-start"
@@ -22,13 +37,17 @@ export const ChannelMessage = ({ createdAt, authorAvatar, authorName, text, isMi
           mr: isMine ? 0 : 'auto',
         }}
       >
-        <Avatar
-          src={authorAvatar}
-          sx={{
-            height: 32,
-            width: 32,
-          }}
-        />
+        {!isMine && (
+          <Avatar
+            src={authorAvatar}
+            sx={{
+              height: 32,
+              width: 32,
+              cursor: 'pointer',
+            }}
+            onClick={scrollToParentTop}
+          />
+        )}
         <Stack sx={{ alignItems: isMine ? 'end' : 'start' }}>
           <Box display="flex" mb={0.5} sx={{ justifyContent: isMine ? 'end' : 'start' }}>
             <Card

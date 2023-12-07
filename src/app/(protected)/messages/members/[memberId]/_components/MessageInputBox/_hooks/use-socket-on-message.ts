@@ -46,12 +46,9 @@ export const useSocketOnMessage = (params: TUseSocketOnMessage) => {
   const handleNewChannelMessage = useCallback(
     async (content: TMessage) => {
       await dispatch(thunks.addMessage(content));
-      if (content.sender.id !== userId) {
-        chatWsService.markChannelMessagesAsRead([content.id], userId);
-      }
       callSocketMessageCallback('message');
     },
-    [callSocketMessageCallback, dispatch, userId]
+    [callSocketMessageCallback, dispatch]
   );
 
   const handleUserJoined = useCallback(

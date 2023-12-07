@@ -22,6 +22,10 @@ const SettingsProvider = (props: TProps) => {
       }));
     } else {
       localStorageService.setSettings(initialSettings);
+      setState({
+        ...initialSettings,
+        isInitialized: true,
+      });
     }
   }, []);
 

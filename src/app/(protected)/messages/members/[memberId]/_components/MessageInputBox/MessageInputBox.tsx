@@ -46,6 +46,10 @@ const MessageInputBox = (props: TProps) => {
     setText(event.target.value);
   }, []);
 
+  if (memberProfile.id === user.id) {
+    return null;
+  }
+
   return (
     <Stack
       alignItems="center"

@@ -19,7 +19,7 @@ services:
         environment:
             NODE_ENV: production
         volumes:
-            - ./.env:/app/.env
+            - ./.env:/${WEB_APP_WORK_DIR?Variable not set}/.env
         command: ["npm", "start"]
         profiles:
             - default

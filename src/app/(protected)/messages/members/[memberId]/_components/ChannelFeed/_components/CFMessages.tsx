@@ -9,10 +9,11 @@ type TProps = {
   userId: TDefaultId;
   messages: TMessage[];
   lastMessageRef: React.RefObject<HTMLDivElement>;
+  messagesContainerRef: React.RefObject<HTMLDivElement>;
 };
 
 export const CFMessages = (props: TProps) => {
-  const { userId, messages, lastMessageRef } = props;
+  const { userId, messages, lastMessageRef, messagesContainerRef } = props;
 
   return (
     <>
@@ -27,6 +28,7 @@ export const CFMessages = (props: TProps) => {
               text={message.text}
               createdAt={message.createdAt}
               status={message.status}
+              messagesContainerRef={messagesContainerRef}
             />
           </Box>
         );

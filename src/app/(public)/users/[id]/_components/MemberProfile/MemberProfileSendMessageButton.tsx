@@ -9,7 +9,7 @@ const MemberProfile = (props: TProps) => {
   const { isAuthenticated } = useAuth();
 
   return (
-    <ChatButton memberId={isAuthenticated ? memberId : null} variant="contained" color="success">
+    <ChatButton memberId={isAuthenticated ? memberId : null} variant="contained" color="success" target="_parent">
       Send message
     </ChatButton>
   );

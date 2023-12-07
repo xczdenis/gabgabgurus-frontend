@@ -49,7 +49,7 @@ export const cmpInfo = {
 export const paginationConfig = {
   defaultPageSize: 20,
   chatsPageSize: 20,
-  messagesPageSize: 40,
+  messagesPageSize: 30,
   notificationsPageSize: 5,
   searchPageSize: 20,
 };

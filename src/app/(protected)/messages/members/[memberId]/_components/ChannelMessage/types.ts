@@ -7,6 +7,7 @@ export type TOwnProps = {
   createdAt: number;
   isMine: boolean;
   status: MessageStatuses;
+  messagesContainerRef: React.RefObject<HTMLDivElement>;
 };
 
 export type TProps = TOwnProps;

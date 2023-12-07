@@ -4,7 +4,7 @@ import { BaseContainer } from '@/components/BaseContainer';
 import { Scrollbar } from '@/components/Scrollbar';
 import { withAuthenticatedUser } from '@/lib/hoks/with-authenticated-user';
 import { useAppSelector } from '@/lib/hooks/store';
-import { Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { useCallback, useEffect, useRef } from 'react';
 import { CMLoadMoreButtonMemo } from './_components/CFLoadMoreButton';
 import { CFMessages } from './_components/CFMessages';
@@ -17,6 +17,7 @@ const ChannelFeed = (props: TProps) => {
   const { channelId } = useChannelId({ currentChannelId, memberProfile });
   const messages = useAppSelector((state) => state.chat.messages);
   const lastMessageRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
   const isLoadingPrevious = useRef(false);
   const offset = useRef(0);
   const { downloadMessages } = useChannelFeed(user.id);
@@ -30,19 +31,28 @@ const ChannelFeed = (props: TProps) => {
     offset.current = messages.length;
   }, [messages.length]);
 
-  const handleLoadMoreClick = useCallback(async () => {
+  const handleLoadMoreClick = useCallback(() => {
     isLoadingPrevious.current = true;
-    await downloadMessages('append', channelId, offset.current);
+    downloadMessages('append', channelId, offset.current);
   }, [channelId, downloadMessages]);
 
   return (
     <Scrollbar sx={{ height: '100%' }}>
-      <CMLoadMoreButtonMemo onClick={handleLoadMoreClick} />
-      <BaseContainer>
-        <Stack spacing={2} sx={{ p: 3 }}>
-          {messages && <CFMessages userId={user.id} messages={messages} lastMessageRef={lastMessageRef} />}
-        </Stack>
-      </BaseContainer>
+      <Box ref={messagesContainerRef}>
+        <CMLoadMoreButtonMemo onClick={handleLoadMoreClick} />
+        <BaseContainer>
+          <Stack spacing={2} sx={{ p: 3 }}>
+            {messages && (
+              <CFMessages
+                userId={user.id}
+                messages={messages}
+                lastMessageRef={lastMessageRef}
+                messagesContainerRef={messagesContainerRef}
+              />
+            )}
+          </Stack>
+        </BaseContainer>
+      </Box>
     </Scrollbar>
   );
 };

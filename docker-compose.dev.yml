@@ -10,12 +10,16 @@ services:
             context: .
             dockerfile: deploy/web/Dockerfile
             args:
-                img: ${NODE_IMG}
+                IMG: ${NODE_IMG}
+                BASE_API_URL: ${NEXT_PUBLIC_BASE_API_URL?Variable not set}
+                BASE_WS_URL: ${NEXT_PUBLIC_BASE_WS_URL?Variable not set}
         environment:
-            NODE_ENV: development
-        command: ["npm", "run", "dev"]
+            NODE_ENV: production
+#            NODE_ENV: development
+#        command: ["npm", "run", "dev"]
         volumes:
-            - ./.env.development.local:/app/.env.development.local
+            - ./.env.development.local:/${WEB_APP_WORK_DIR?Variable not set}/.env.development.local
+            - ./.env.production.local:/${WEB_APP_WORK_DIR?Variable not set}/.env.production.local
         ports:
             - ${PORT}:${PORT}
 

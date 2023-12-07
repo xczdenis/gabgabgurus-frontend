@@ -26,7 +26,10 @@ const GroupAvatar = (props: TProps) => {
             },
       }}
     >
-      {members && members.map((member) => <Avatar key={member.id} src={member.avatar} />)}
+      {members &&
+        members.map((member) => {
+          return <Avatar key={member.id} src={member.avatar} />;
+        })}
     </AvatarGroup>
   );
 };
