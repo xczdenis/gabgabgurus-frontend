@@ -12,6 +12,9 @@ const MessageInputBox = (props: TProps) => {
   const { memberProfile, user } = props;
   const isBlocked = useAppSelector((state) => state.chat.isBlocked);
   const [text, setText] = useState('');
+  const [isMessageSending, setIsMessageSending] = useState(false);
+
+  const buttonIsDisabled = isBlocked || !text || isMessageSending;
 
   const handleMessageCreated = useCallback(() => {
     setText('');
@@ -30,7 +33,9 @@ const MessageInputBox = (props: TProps) => {
   const { SendMessage } = usePrivateDialog(privateDialogParams);
 
   const handleSendMessage = useCallback(async () => {
+    setIsMessageSending(true);
     await SendMessage(text);
+    setIsMessageSending(false);
   }, [SendMessage, text]);
 
   const handleKeyUp = useCallback(
@@ -69,7 +74,7 @@ const MessageInputBox = (props: TProps) => {
         placeholder="Leave a message"
         size="small"
       />
-      <SendButtonMemo disabled={isBlocked || !text} onClick={handleSendMessage} />
+      <SendButtonMemo disabled={buttonIsDisabled} onClick={handleSendMessage} />
     </Stack>
   );
 };
