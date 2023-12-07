@@ -40,7 +40,7 @@ export const ChannelRoomToolbarAvatar = (props: TProps) => {
         <GroupAvatar members={participants} />
       </Link>
       <Box>
-        <Link href={memberProfileLink} color="white">
+        <Link href={memberProfileLink} color="text.primary">
           <GroupDisplayName members={participants} />
         </Link>
         <UserPresenceStatus lastActivity={lastActivityOfPeer} updateStatusByInterval={true} />
