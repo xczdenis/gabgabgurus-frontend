@@ -27,4 +27,19 @@ export const sections: TFooterSectionsItem[] = [
       },
     ],
   },
+  {
+    title: 'GitHub',
+    items: [
+      {
+        title: 'Backend',
+        path: 'https://github.com/xczdenis/gabgabgurus-backend',
+        auth: false,
+      },
+      {
+        title: 'Frontend',
+        path: 'https://github.com/xczdenis/gabgabgurus-frontend',
+        auth: false,
+      },
+    ],
+  },
 ];
