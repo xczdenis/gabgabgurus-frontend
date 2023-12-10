@@ -12,10 +12,14 @@
 # GabGabGurus (frontend)
 
 * [https://gabgabgurus.ru/](https://gabgabgurus.ru/) - веб сайт
-* [https://gabgabgurus.ru/](https://gabgabgurus.ru/api/openapi/swagger/?version=v1) - API в интерфейсе swagger
-* [https://gabgabgurus.ru/](https://gabgabgurus.ru/api/openapi/redoc/?version=v1) - API в интерфейсе redoc
-* [https://gabgabgurus.ru/](https://github.com/xczdenis/gabgabgurus-frontend) - фронтенд на NextJS (React)
-* [https://gabgabgurus.ru/](https://github.com/xczdenis/gabgabgurus-backend) - backend на Django+DRF
+* [OpenAPI Swagger](https://gabgabgurus.ru/api/openapi/swagger/?version=v1) - API
+  в интерфейсе swagger
+* [OpenAPI Redoc](https://gabgabgurus.ru/api/openapi/redoc/?version=v1) - API в
+  интерфейсе redoc
+* [GabGabGurus (frontend)](https://github.com/xczdenis/gabgabgurus-frontend) - фронтенд на
+  NextJS (React)
+* [GabGabGurus (backend)](https://github.com/xczdenis/gabgabgurus-backend) - backend на
+  Django+DRF
 
 [GabGabGurus.ru](https://gabgabgurus.ru/) - это сервис для поиска собеседников для практики иностранных
 языков. Здесь можно найти носителя языка по общим увлечениям и практиковаться в свободной речи или переписке.
