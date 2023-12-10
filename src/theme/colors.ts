@@ -28,7 +28,6 @@ const withAlphas = (color: IColor): IColorWithAlphas => {
   };
 };
 
-/* eslint-disable @typescript-eslint/naming-convention */
 export const neutral: Record<number, string> = {
   50: '#F8F9FA',
   100: '#F3F4F6',
@@ -41,7 +40,6 @@ export const neutral: Record<number, string> = {
   800: '#1C2536',
   900: '#111927',
 };
-/* eslint-enable @typescript-eslint/naming-convention */
 
 export const blue = withAlphas({
   lightest: '#F5F8FF',
