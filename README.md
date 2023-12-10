@@ -18,7 +18,6 @@
   интерфейсе redoc
 * [GabGabGurus (frontend)](https://github.com/xczdenis/gabgabgurus-frontend) - фронтенд на
   NextJS (React)
-*
 * [GabGabGurus (backend)](https://github.com/xczdenis/gabgabgurus-backend) - backend на
   Django+DRF
 
