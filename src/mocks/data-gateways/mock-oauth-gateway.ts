@@ -2,7 +2,7 @@ import { TOAuthProvider } from '@/lib/types/oauth';
 import { IUser } from '@/lib/types/user';
 import { convertKeysSnakeToCamel } from '@/lib/utils/convert-keys-snake-to-camel';
 import { mockAdminResponse } from '@/mocks/data/users';
-import { AbstractOAuthGateway, TSignInParams } from '@/modules/data-gateways/interfaces/oauth-gateway';
+import { AbstractOAuthGateway } from '@/modules/data-gateways/interfaces/oauth-gateway';
 
 export class MockOAuthGateway extends AbstractOAuthGateway {
   constructor() {
@@ -13,7 +13,7 @@ export class MockOAuthGateway extends AbstractOAuthGateway {
     return `https://github.com/${provider}`;
   }
 
-  public async signIn(params: TSignInParams): Promise<IUser> {
+  public async signIn(): Promise<IUser> {
     return convertKeysSnakeToCamel(mockAdminResponse);
   }
 

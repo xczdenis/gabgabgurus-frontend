@@ -24,7 +24,7 @@ export class MockChannelGateway extends AbstractChannelGateway {
     return convertKeysSnakeToCamel(createdChannel);
   }
 
-  public async addMembersToChannel(channelId: TDefaultId, memberIds: TDefaultId[]): Promise<void> {
+  public async addMembersToChannel(): Promise<void> {
     return Promise.resolve(undefined);
   }
 
@@ -99,11 +99,11 @@ export class MockChannelGateway extends AbstractChannelGateway {
     };
   }
 
-  deliverMessages(channelId: TDefaultId): Promise<void> {
+  deliverMessages(): Promise<void> {
     return Promise.resolve(undefined);
   }
 
-  public async markChannelMessagesAsRead(messageIds: TDefaultId[], recipientId?: TDefaultId): Promise<void> {
+  public async markChannelMessagesAsRead(): Promise<void> {
     return Promise.resolve(undefined);
   }
 }

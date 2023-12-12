@@ -65,7 +65,7 @@ export class MockUserGateway extends AbstractUserGateway {
     return { language: data.language, languageLevel: data.languageLevel ?? 0 };
   }
 
-  public async updateAvatar(body: FormData): Promise<void> {
+  public async updateAvatar(): Promise<void> {
     Promise.resolve(undefined);
   }
 
@@ -78,11 +78,11 @@ export class MockUserGateway extends AbstractUserGateway {
     return convertKeysSnakeToCamel(profile ?? memberProfiles[id - 1]);
   }
 
-  public async blockMember(id: TDefaultId): Promise<void> {
+  public async blockMember(): Promise<void> {
     Promise.resolve(undefined);
   }
 
-  public async unblockMember(id: TDefaultId): Promise<void> {
+  public async unblockMember(): Promise<void> {
     Promise.resolve(undefined);
   }
 

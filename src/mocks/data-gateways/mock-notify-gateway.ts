@@ -2,14 +2,14 @@ import { TDefaultId } from '@/lib/types/common';
 import { TNotification, TNotificationPagination } from '@/lib/types/notification';
 import { convertKeysSnakeToCamel } from '@/lib/utils/convert-keys-snake-to-camel';
 import { notifications } from '@/mocks/data/notifications';
-import { AbstractNotifyGateway, TGetNotificationsParams } from '@/modules/data-gateways/interfaces/notify-gateway';
+import { AbstractNotifyGateway } from '@/modules/data-gateways/interfaces/notify-gateway';
 
 export class MockNotifyGateway extends AbstractNotifyGateway {
   constructor() {
     super();
   }
 
-  public async getNotifications(params: TGetNotificationsParams): Promise<TNotificationPagination> {
+  public async getNotifications(): Promise<TNotificationPagination> {
     return convertKeysSnakeToCamel({
       count: notifications.length,
       next: null,

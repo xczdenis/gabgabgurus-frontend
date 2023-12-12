@@ -35,19 +35,19 @@ const wsClients = {
 
 if (process.env.NODE_ENV == 'development') {
   if (process.env.NEXT_PUBLIC_MOCK_CHANNEL_SERVICE === '1') {
-    gateways.chatGateway = mockChannelGateway as typeof kyChatGateway;
+    gateways.chatGateway = mockChannelGateway as unknown as typeof kyChatGateway;
   }
   if (process.env.NEXT_PUBLIC_MOCK_NOTIFY_SERVICE === '1') {
-    gateways.notifyGateway = mockNotifyGateway as typeof kyNotifyGateway;
+    gateways.notifyGateway = mockNotifyGateway as unknown as typeof kyNotifyGateway;
   }
   if (process.env.NEXT_PUBLIC_MOCK_OAUTH_SERVICE === '1') {
-    gateways.oAuthGateway = mockOAuthGateway as typeof kyOAuthGateway;
+    gateways.oAuthGateway = mockOAuthGateway as unknown as typeof kyOAuthGateway;
   }
   if (process.env.NEXT_PUBLIC_MOCK_REFS_SERVICE === '1') {
-    gateways.refsGateway = mockRefsGateway as typeof kyRefsGateway;
+    gateways.refsGateway = mockRefsGateway as unknown as typeof kyRefsGateway;
   }
   if (process.env.NEXT_PUBLIC_MOCK_USER_SERVICE === '1') {
-    gateways.userGateway = mockUserGateway as typeof kyUserGateway;
+    gateways.userGateway = mockUserGateway as unknown as typeof kyUserGateway;
   }
 
   if (process.env.NEXT_PUBLIC_MOCK_CHANNEL_WS_SERVICE === '1') {
