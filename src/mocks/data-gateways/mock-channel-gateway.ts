@@ -1,10 +1,10 @@
 import { MessageStatuses, paginationConfig } from '@/config';
 import { TChannelBaseInfo, TChannelPagination, TMessage, TMessagePagination } from '@/lib/types/chat';
-import { TChannelPaginationResponse } from '@/lib/types/chat-response';
+import { TChannelBaseInfoResponse, TChannelPaginationResponse } from '@/lib/types/chat-response';
 import { TDefaultId } from '@/lib/types/common';
 import { convertKeysSnakeToCamel } from '@/lib/utils/convert-keys-snake-to-camel';
 import { createResourceId } from '@/lib/utils/create-resource-id';
-import { channels, channelsBaseInfo } from '@/mocks/data/channels';
+import { channels } from '@/mocks/data/channels';
 import { messagesByChannelId } from '@/mocks/data/messages';
 import { mockAdmin } from '@/mocks/data/users';
 import { AbstractChannelGateway } from '@/modules/data-gateways/interfaces';
@@ -16,7 +16,12 @@ export class MockChannelGateway extends AbstractChannelGateway {
   }
 
   public async createChannel(): Promise<TChannelBaseInfo> {
-    return convertKeysSnakeToCamel(channelsBaseInfo[0]);
+    const createdChannel: TChannelBaseInfoResponse = {
+      id: createResourceId(),
+      owner: mockAdmin.firstName,
+      createdAt: new Date().getTime() / 1000,
+    };
+    return convertKeysSnakeToCamel(createdChannel);
   }
 
   public async addMembersToChannel(channelId: TDefaultId, memberIds: TDefaultId[]): Promise<void> {
@@ -64,7 +69,7 @@ export class MockChannelGateway extends AbstractChannelGateway {
       count = params.limit ? parseInt(String(params.limit)) : count;
     }
 
-    const allData = messagesByChannelId[params.channelId];
+    const allData = messagesByChannelId[params.channelId] ?? [];
     const pages = Math.ceil(allData.length / count);
     const start = (page - 1) * count;
     const end = start + count;

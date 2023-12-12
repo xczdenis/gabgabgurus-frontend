@@ -23,7 +23,6 @@ export const ChannelListItemContainer = (props: TProps) => {
       <Stack
         component={Link}
         href={chatItemUrl}
-        target="_blank"
         direction="row"
         spacing={2}
         sx={{

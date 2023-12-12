@@ -29,7 +29,7 @@ const makeMember = (params: Partial<TMemberProfileResponse>): TMemberProfileResp
 
 export const memberProfiles: TMemberProfileResponse[] = [
   makeMember({
-    ...{ mockAdminResponse },
+    ...mockAdminResponse,
     last_activity: now.getTime(),
     is_blocked: false,
   }),

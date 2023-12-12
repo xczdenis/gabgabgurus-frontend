@@ -14,7 +14,10 @@ export const useChannelFeed = (userId: TDefaultId) => {
   const downloadMessages = useCallback(
     (setOrAppend: 'set' | 'append' = 'set', channelId: number | null = null, offset: number = 0) => {
       if (channelId) {
-        dispatch(thunks.fetchMessages({ offset, channelId }, setOrAppend)).catch(() => showToastError());
+        dispatch(thunks.fetchMessages({ offset, channelId }, setOrAppend)).catch((error) => {
+          console.log(error);
+          showToastError();
+        });
       }
     },
     [dispatch]
