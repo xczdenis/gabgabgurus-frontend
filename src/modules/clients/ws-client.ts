@@ -18,11 +18,11 @@ export type TWSClientRemoveListenersParams = {
 export type TWSClientMessage = string | ArrayBufferLike | Blob | ArrayBufferView;
 
 export class WSClient {
-  private _socket: WebSocket | null = null;
+  protected _socket: WebSocket | null = null;
 
-  private _options: TWSClientOptions = {};
+  protected _options: TWSClientOptions = {};
 
-  private readonly _baseUrl: string = process.env.BASE_WS_URL || process.env.NEXT_PUBLIC_BASE_WS_URL || '';
+  protected readonly _baseUrl: string = process.env.BASE_WS_URL || process.env.NEXT_PUBLIC_BASE_WS_URL || '';
 
   connect(urlPath: string, options?: TWSClientOptions): void {
     if (!this._baseUrl && !urlPath) {

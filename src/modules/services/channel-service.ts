@@ -55,6 +55,7 @@ export class ChannelService {
       participants: [memberId],
       channelType: ChannelTypes.Private,
     };
+
     const channelPagination = await this._chatGateway.getChannels(searchParams);
     const channels = channelPagination.results;
     if (channels.length > 0) {

@@ -1,6 +1,7 @@
 import { TDefaultId } from '@/lib/types/common';
 import { createResourceId } from '@/lib/utils/create-resource-id';
-import { members } from '@/mocks/data/members';
+import { memberProfiles } from '@/mocks/data/member-profiles';
+import { mockAdminResponse } from '@/mocks/data/users';
 
 const now = new Date();
 
@@ -28,15 +29,15 @@ const makeChannelContact = (params: Partial<TChannelContactResponse>): TChannelC
 };
 
 export const channelContacts: TChannelContactResponse[] = [
-  makeChannelContact(members[0]),
-  makeChannelContact(members[1]),
-  makeChannelContact(members[2]),
-  makeChannelContact(members[3]),
-  makeChannelContact(members[4]),
-  makeChannelContact(members[5]),
-  makeChannelContact(members[6]),
-  makeChannelContact(members[7]),
-  makeChannelContact(members[8]),
-  makeChannelContact(members[9]),
-  makeChannelContact(members[10]),
+  makeChannelContact(mockAdminResponse),
+  makeChannelContact(memberProfiles[1]),
+  makeChannelContact(memberProfiles[2]),
+  makeChannelContact(memberProfiles[3]),
+  makeChannelContact(memberProfiles[4]),
+  makeChannelContact(memberProfiles[5]),
+  makeChannelContact(memberProfiles[6]),
+  makeChannelContact(memberProfiles[7]),
+  makeChannelContact(memberProfiles[8]),
+  makeChannelContact(memberProfiles[9]),
+  makeChannelContact(memberProfiles[10]),
 ];

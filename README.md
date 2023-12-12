@@ -29,6 +29,8 @@
 * **фронтенд**: NextJS, React, MUI, RTK Query, SWR hooks, TypeScript, Docker;
 * **бэкенд**: Django, Django Rest Framework (DRF), ASGI (channels), OpenAPI (swagger), PostgreSQL, Redis, Docker;
 
+![chat.gif](docs%2Fassets%2Fimg%2Fchat.gif)
+
 ## 📖 Содержание
 
 - [🌟 Особенности](#-Особенности-)

@@ -1,9 +1,7 @@
 import { IUser } from '@/lib/types/user';
-import { contacts } from '@/mocks/data/contacts';
+import { mockAdmin } from '@/mocks/data/users';
 import { AbstractAuthGateway } from '@/modules/data-gateways/interfaces';
 import { localStorageService } from '@/modules/services';
-
-const fakeUserAdmin: IUser = { ...contacts[0], email: 'admin@admin.ru' };
 
 export class MockAuthGateway extends AbstractAuthGateway {
   constructor() {
@@ -25,16 +23,16 @@ export class MockAuthGateway extends AbstractAuthGateway {
   }
 
   public async signUp(): Promise<IUser> {
-    return fakeUserAdmin;
+    return mockAdmin;
   }
 
   public async signIn(): Promise<IUser> {
-    return fakeUserAdmin;
+    return mockAdmin;
   }
 
   public async signInWithEmailCode(code: string): Promise<IUser | null> {
     if (code === '12345') {
-      return fakeUserAdmin;
+      return mockAdmin;
     }
     return null;
   }

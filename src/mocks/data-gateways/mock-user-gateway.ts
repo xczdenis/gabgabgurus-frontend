@@ -1,64 +1,92 @@
-// import { TLanguage, TUserLanguageType } from '@/lib/types/refs';
-// import { TMemberProfile, TUserLanguage, TUserProfile } from '@/lib/types/user';
-// import { TMemberProfileResponse, TUserLanguageResponse } from '@/lib/types/user-response';
-// import { convertKeysSnakeToCamel } from '@/lib/utils/convert-keys-snake-to-camel';
-// import { contacts } from '@/mocks/data/contacts';
-// import { hobbies } from '@/mocks/data/hobbies';
-// import { AbstractUserGateway } from '@/modules/data-gateways/interfaces';
-// import { TUpdateUserProfileRequest, TUserLanguageRequest } from '@/modules/data-gateways/interfaces/user-gateway';
-//
-// const aboutMe: string = `Hey there! I'm Mike from sunny LA. By day, I work in digital marketing and by night, I'm a language enthusiast—currently all about learning Russian. Maybe it's the influence of Dostoevsky novels or my love for Russian cuisine (hello, borscht!), but I'm hooked!
-// I'm fluent in English (it's my native language) and would love to help someone get their English skills up to par. In return, I'd appreciate some casual Russian conversations. Don't worry, I can already say more than just "Da" and "Nyet"! 😄
-// Big fan of indie music, hiking, and of course, hitting the beaches here in LA. So if you're up for some English chit-chat and can help me not sound like a total newbie in Russian, hit me up! Let's make language learning fun and effortless.
-// Cheers!
-// `;
-//
-// const english5: TUserLanguageResponse = { language: 'English', language_level: 5 };
-// const deutsch4: TUserLanguageResponse = { language: 'Deutsch', language_level: 4 };
-// const russian3: TUserLanguageResponse = { language: 'Russian', language_level: 3 };
-// const russian0: TUserLanguageResponse = { language: 'Russian', language_level: 0 };
-// const spanish1: TUserLanguageResponse = { language: 'Spanish', language_level: 1 };
-// const italian0: TUserLanguageResponse = { language: 'Italian', language_level: 0 };
-// const french2: TUserLanguageResponse = { language: 'French', language_level: 2 };
-//
-// const fakeUser: TMemberProfileResponse = {
-//   id: 3,
-//   first_name: 'Petr',
-//   country: 'France',
-//   about_me: aboutMe,
-//   speaks: [russian3, french2, spanish1, italian0],
-//   learning: [english5, deutsch4, russian0],
-//   hobbies: [hobbies[0], hobbies[5], hobbies[2], hobbies[1], hobbies[3], hobbies[9]],
-//   avatar: '/assets/avatars/avatar01.png',
-//   is_blocked: false,
-// };
-//
-// export class MockUserGateway extends AbstractUserGateway {
-//   constructor() {
-//     super();
-//   }
-//   public async getUserProfile(): Promise<TUserProfile> {
-//     return convertKeysSnakeToCamel({ ...fakeUser, email: 'admin@admin.com' });
-//   }
-//
-//   public async updateUserProfile(data: TUpdateUserProfileRequest): Promise<TUserProfile> {
-//     return convertKeysSnakeToCamel({ ...fakeUser, email: 'admin@admin.com' });
-//   }
-//
-//   public async updateUserLanguage(data: TUserLanguageRequest): Promise<TUserLanguage> {
-//     return convertKeysSnakeToCamel(data);
-//   }
-//
-//   public async getMemberProfile(id: number): Promise<TMemberProfile> {
-//     return convertKeysSnakeToCamel({
-//       ...fakeUser,
-//       ...contacts[id],
-//     });
-//   }
-//
-//   public async blockMember(id: number): Promise<void> {}
-//
-//   public async unblockMember(id: number): Promise<void> {}
-//
-//   public async deleteUserLanguage(languageType: TUserLanguageType, language: TLanguage): Promise<void> {}
-// }
+import { paginationConfig } from '@/config';
+import { TDefaultId } from '@/lib/types/common';
+import { IUser, TMemberPagination, TMemberProfile, TUserLanguage, TUserProfile } from '@/lib/types/user';
+import { convertKeysSnakeToCamel } from '@/lib/utils/convert-keys-snake-to-camel';
+import { memberProfiles, mockProfileAdmin } from '@/mocks/data/member-profiles';
+import { mockAdmin } from '@/mocks/data/users';
+import { AbstractUserGateway } from '@/modules/data-gateways/interfaces';
+import {
+  TSearchRequest,
+  TUpdateUserProfileRequest,
+  TUserLanguageRequest,
+} from '@/modules/data-gateways/interfaces/user-gateway';
+
+export class MockUserGateway extends AbstractUserGateway {
+  constructor() {
+    super();
+  }
+
+  public async iam(): Promise<IUser> {
+    return mockAdmin;
+  }
+
+  public async searchMembers(params?: TSearchRequest): Promise<TMemberPagination> {
+    let page = 1;
+    let count = paginationConfig.searchPageSize;
+    if (params) {
+      page = params.page ? parseInt(String(params.page)) : page;
+      count = params.count ? parseInt(String(params.count)) : count;
+    }
+
+    const allData = memberProfiles;
+    const pages = Math.ceil(allData.length / count);
+    const start = (page - 1) * count;
+    const end = start + count;
+
+    const next = page < pages ? String(page + 1) : null;
+    const prev = page > 1 ? String(page - 1) : null;
+    const current = page;
+
+    const response = {
+      count: allData.length,
+      next,
+      previous: prev,
+      current,
+      pages,
+      results: allData.slice(start, end),
+    };
+
+    return convertKeysSnakeToCamel(response);
+  }
+
+  public async getTopMembers(): Promise<TMemberProfile[]> {
+    return convertKeysSnakeToCamel([memberProfiles[2], memberProfiles[1], memberProfiles[7]]);
+  }
+
+  public async getUserProfile(): Promise<TUserProfile> {
+    return mockProfileAdmin;
+  }
+
+  public async updateUserProfile(data: TUpdateUserProfileRequest): Promise<TUserProfile> {
+    return { ...mockProfileAdmin, ...data };
+  }
+
+  public async updateUserLanguage(data: TUserLanguageRequest): Promise<TUserLanguage> {
+    return { language: data.language, languageLevel: data.languageLevel ?? 0 };
+  }
+
+  public async updateAvatar(body: FormData): Promise<void> {
+    Promise.resolve(undefined);
+  }
+
+  public async deleteAvatar(): Promise<void> {
+    Promise.resolve(undefined);
+  }
+
+  public async getMemberProfile(id: TDefaultId): Promise<TMemberProfile> {
+    const profile = memberProfiles.find((p) => p.id === id);
+    return convertKeysSnakeToCamel(profile ?? memberProfiles[id - 1]);
+  }
+
+  public async blockMember(id: TDefaultId): Promise<void> {
+    Promise.resolve(undefined);
+  }
+
+  public async unblockMember(id: TDefaultId): Promise<void> {
+    Promise.resolve(undefined);
+  }
+
+  public async updateLastActivity(): Promise<void> {
+    Promise.resolve(undefined);
+  }
+}

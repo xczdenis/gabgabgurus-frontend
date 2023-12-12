@@ -1,6 +1,13 @@
-export { MockAuthGateway } from './mock-auth-gateway';
-// export { MockChatGateway } from './mock-chat-gateway';
-// export { MockRefsGateway } from './mock-refs-gateway';
-// export { MockNotifyGateway } from './mock-notify-gateway';
-// export { MockSearchGateway } from './mock-search-gateway';
-// export { MockUserGateway } from './mock-user-gateway';
+import { MockUserGateway } from '@/mocks/data-gateways/mock-user-gateway';
+import { MockAuthGateway } from './mock-auth-gateway';
+import { MockChannelGateway } from './mock-channel-gateway';
+import { MockNotifyGateway } from './mock-notify-gateway';
+import { MockOAuthGateway } from './mock-oauth-gateway';
+import { MockRefsGateway } from './mock-refs-gateway';
+
+export const mockAuthGateway = new MockAuthGateway();
+export const mockChannelGateway = new MockChannelGateway();
+export const mockNotifyGateway = new MockNotifyGateway();
+export const mockOAuthGateway = new MockOAuthGateway();
+export const mockRefsGateway = new MockRefsGateway();
+export const mockUserGateway = new MockUserGateway();
