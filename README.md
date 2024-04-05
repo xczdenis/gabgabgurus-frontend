@@ -288,14 +288,7 @@ export const createTheme = (config: IThemeConfig) => {
 
 ```docker
     web:
-        <<: *base-dev-service
-        build:
-            context: .
-            dockerfile: deploy/web/Dockerfile
-            args:
-                IMG: ${NODE_IMG}
-                BASE_API_URL: ${NEXT_PUBLIC_BASE_API_URL?Variable not set}
-                BASE_WS_URL: ${NEXT_PUBLIC_BASE_WS_URL?Variable not set}
+        ...
         environment:
 #            NODE_ENV: production
             NODE_ENV: development
@@ -354,14 +347,7 @@ DOMAIN=gabgabgurus.ru
 
 ```docker
     web:
-        <<: *base-dev-service
-        build:
-            context: .
-            dockerfile: deploy/web/Dockerfile
-            args:
-                IMG: ${NODE_IMG}
-                BASE_API_URL: ${NEXT_PUBLIC_BASE_API_URL?Variable not set}
-                BASE_WS_URL: ${NEXT_PUBLIC_BASE_WS_URL?Variable not set}
+        ...
         environment:
             NODE_ENV: production
 #            NODE_ENV: development
