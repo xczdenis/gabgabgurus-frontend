@@ -35,7 +35,6 @@ services:
       - ./certbot/conf/:/etc/nginx/ssl/:ro
       - ggg_backend_static:/backend/static
       - ggg_backend_media:/backend/media
-    command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
     depends_on:
       web:
         condition: service_started
