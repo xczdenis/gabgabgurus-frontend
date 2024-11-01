@@ -4,6 +4,7 @@ import { IUser, TMemberPagination, TMemberProfile, TUserLanguage, TUserProfile }
 import { AbstractUserGateway } from '@/modules/data-gateways/interfaces';
 import {
   TSearchRequest,
+  TSendFeedbackRequest,
   TUpdateUserProfileRequest,
   TUserLanguageRequest,
 } from '@/modules/data-gateways/interfaces/user-gateway';
@@ -69,5 +70,9 @@ export class UserService {
 
   public updateLastActivity = (): Promise<void> => {
     return this._userGateway.updateLastActivity();
+  };
+
+  public sendFeedback = (data: TSendFeedbackRequest): Promise<void> => {
+    return this._userGateway.sendFeedback(data);
   };
 }

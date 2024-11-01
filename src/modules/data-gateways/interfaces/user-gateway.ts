@@ -25,17 +25,36 @@ export type TUserLanguageRequest = {
   isLearning?: boolean;
 };
 
+export type TSendFeedbackRequest = {
+  firstName: string;
+  email: string;
+  text?: string;
+};
+
 export abstract class AbstractUserGateway extends AbstractBaseGateway {
   public abstract iam(): Promise<IUser>;
+
   public abstract searchMembers(params?: TSearchRequest): Promise<TMemberPagination>;
+
   public abstract getTopMembers(): Promise<TMemberProfile[]>;
+
   public abstract getUserProfile(): Promise<TUserProfile>;
+
   public abstract updateUserProfile(data: TUpdateUserProfileRequest): Promise<TUserProfile>;
+
   public abstract updateUserLanguage(data: TUserLanguageRequest): Promise<TUserLanguage>;
+
   public abstract updateAvatar(body: FormData): Promise<void>;
+
   public abstract deleteAvatar(): Promise<void>;
+
   public abstract getMemberProfile(id: number): Promise<TMemberProfile>;
+
   public abstract blockMember(id: number): Promise<void>;
+
   public abstract unblockMember(id: number): Promise<void>;
+
   public abstract updateLastActivity(): Promise<void>;
+
+  public abstract sendFeedback(data: TSendFeedbackRequest): Promise<void>;
 }

@@ -7,6 +7,7 @@ import { mockAdmin } from '@/mocks/data/users';
 import { AbstractUserGateway } from '@/modules/data-gateways/interfaces';
 import {
   TSearchRequest,
+  TSendFeedbackRequest,
   TUpdateUserProfileRequest,
   TUserLanguageRequest,
 } from '@/modules/data-gateways/interfaces/user-gateway';
@@ -87,6 +88,11 @@ export class MockUserGateway extends AbstractUserGateway {
   }
 
   public async updateLastActivity(): Promise<void> {
+    Promise.resolve(undefined);
+  }
+
+  public async sendFeedback(data: TSendFeedbackRequest): Promise<void> {
+    console.info(`sendFeedback: ${JSON.stringify(data)}`);
     Promise.resolve(undefined);
   }
 }

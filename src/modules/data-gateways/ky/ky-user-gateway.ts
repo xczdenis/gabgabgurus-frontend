@@ -7,6 +7,7 @@ import { KyClient } from '@/modules/clients/ky-client';
 import { AbstractUserGateway } from '@/modules/data-gateways/interfaces';
 import {
   TSearchRequest,
+  TSendFeedbackRequest,
   TUpdateUserProfileRequest,
   TUserLanguageRequest,
 } from '@/modules/data-gateways/interfaces/user-gateway';
@@ -80,6 +81,10 @@ export class KyUserGateway extends AbstractUserGateway {
 
   public async updateLastActivity(): Promise<void> {
     return this._makeRequest<void>('post', 'last-activity');
+  }
+
+  public async sendFeedback(data: TSendFeedbackRequest): Promise<void> {
+    return this._makeRequest<void>('post', 'me/feedback', { data });
   }
 
   private async _makeRequest<T>(method: HttpMethod, urlPath: string, options?: TMakeRequestOptions): Promise<T> {
