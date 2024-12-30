@@ -9,6 +9,11 @@ import { mockAdmin, mockAdminResponse } from '@/mocks/data/users';
 import { subHours, subMinutes } from 'date-fns';
 
 const now = new Date();
+const nowTs = now.getTime();
+const twoHoursAgo = subHours(now, 2).getTime();
+const oneHourAgo = subHours(now, 1).getTime();
+const sixHoursAgo = subHours(now, 6).getTime();
+const fifteenMinutesAgo = subMinutes(now, 15).getTime();
 
 const makeMember = (params: Partial<TMemberProfileResponse>): TMemberProfileResponse => {
   return {
@@ -27,83 +32,76 @@ const makeMember = (params: Partial<TMemberProfileResponse>): TMemberProfileResp
   };
 };
 
-export const memberProfiles: TMemberProfileResponse[] = [
-  makeMember({
+const membersData: Partial<TMemberProfileResponse>[] = [
+  {
     ...mockAdminResponse,
-    last_activity: now.getTime(),
+    last_activity: nowTs,
     is_blocked: false,
-  }),
-  makeMember({
+  },
+  {
     id: 2,
     avatar: '/assets/avatars/avatar11.png',
-    last_activity: subHours(now, 2).getTime(),
+    last_activity: twoHoursAgo,
     first_name: 'Marcus Finn',
     is_blocked: true,
-  }),
-  makeMember({
+  },
+  {
     id: 3,
     avatar: '/assets/avatars/avatar08.png',
-    last_activity: subMinutes(now, 15).getTime(),
-    country: getRandomCountry(),
+    last_activity: fifteenMinutesAgo,
     first_name: 'Christina Darrin',
-    is_blocked: false,
-  }),
-  makeMember({
+  },
+  {
     id: 4,
     avatar: '/assets/avatars/avatar07.png',
-    last_activity: now.getTime(),
+    last_activity: nowTs,
     first_name: 'Fran Perez',
     is_blocked: true,
-  }),
-  makeMember({
+  },
+  {
     id: 5,
     avatar: '/assets/avatars/avatar10.png',
-    last_activity: now.getTime(),
+    last_activity: nowTs,
     first_name: 'Jie Yan Song',
-    is_blocked: false,
-  }),
-  makeMember({
+  },
+  {
     id: 6,
     avatar: '/assets/avatars/avatar12.png',
-    last_activity: subHours(now, 1).getTime(),
+    last_activity: oneHourAgo,
     first_name: 'Miron Vitold',
-    is_blocked: false,
-  }),
-  makeMember({
+  },
+  {
     id: 7,
     avatar: '/assets/avatars/avatar16.png',
-    last_activity: subHours(now, 6).getTime(),
+    last_activity: sixHoursAgo,
     first_name: 'Penjani Inyene',
-    is_blocked: false,
-  }),
-  makeMember({
+  },
+  {
     id: 8,
     avatar: '/assets/avatars/avatar15.png',
-    last_activity: now.getTime(),
+    last_activity: nowTs,
     first_name: 'Omar Darobe',
-    is_blocked: false,
-  }),
-  makeMember({
+  },
+  {
     id: 9,
     avatar: '/assets/avatars/avatar18.png',
-    last_activity: now.getTime(),
+    last_activity: nowTs,
     first_name: 'Siegbert Gottfried',
-    is_blocked: false,
-  }),
-  makeMember({
+  },
+  {
     id: 10,
     avatar: '/assets/avatars/avatar08.png',
-    last_activity: now.getTime(),
+    last_activity: nowTs,
     first_name: 'Iulia Albu',
-    is_blocked: false,
-  }),
-  makeMember({
+  },
+  {
     id: 11,
     avatar: '/assets/avatars/avatar13.png',
-    last_activity: now.getTime(),
+    last_activity: nowTs,
     first_name: 'Nasimiyu Danai',
-    is_blocked: false,
-  }),
+  },
 ];
+
+export const memberProfiles: TMemberProfileResponse[] = membersData.map(makeMember);
 
 export const mockProfileAdmin: TUserProfile = convertKeysSnakeToCamel({ ...memberProfiles[0], email: mockAdmin.email });
