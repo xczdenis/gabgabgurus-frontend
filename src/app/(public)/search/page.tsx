@@ -10,11 +10,13 @@ import { TProps } from './types';
 export default async function Search(props: TProps) {
   const { searchParams } = props;
 
-  const usersPagination = await softCall(() => userService.searchMembers(searchParams));
+  const resolvedSearchParams = await searchParams;
+
+  const usersPagination = await softCall(() => userService.searchMembers(resolvedSearchParams));
 
   return (
     <Stack direction="row">
-      <FilterSidebar searchParams={searchParams} />
+      <FilterSidebar searchParams={resolvedSearchParams} />
       <UserListContainer>
         <Stack spacing={4}>
           <UserListTopBar />

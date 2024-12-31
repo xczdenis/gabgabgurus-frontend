@@ -14,7 +14,7 @@ type TProps<T extends IFieldValues> = {
   formik: FormikProps<T>;
 };
 
-export const FieldText = <T extends IFieldValues>(props: TProps<T>): React.ReactElement => {
+export const FieldText = <T extends IFieldValues>(props: TProps<T>): React.ReactElement<any> => {
   const { formik } = props;
   return (
     <TextField

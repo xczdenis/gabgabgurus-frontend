@@ -31,7 +31,7 @@ export type TProps<T extends IFieldValues> = {
   formik: FormikProps<T>;
 };
 
-export const FieldHobbies = <T extends IFieldValues>(props: TProps<T>): React.ReactElement => {
+export const FieldHobbies = <T extends IFieldValues>(props: TProps<T>): React.ReactElement<any> => {
   const { userHobbies, formik } = props;
   const { hobbies } = useHobbies();
   const [selectedHobbies, setSelectedHobbies] = useState<typeof userHobbies>(userHobbies);

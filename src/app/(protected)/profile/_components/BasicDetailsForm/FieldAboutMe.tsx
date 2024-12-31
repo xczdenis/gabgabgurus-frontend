@@ -15,7 +15,7 @@ type TProps<T extends IFieldValues> = {
   formik: FormikProps<T>;
 };
 
-export const FieldAboutMe = <T extends IFieldValues>(props: TProps<T>): React.ReactElement => {
+export const FieldAboutMe = <T extends IFieldValues>(props: TProps<T>): React.ReactElement<any> => {
   const { formik } = props;
   const [aboutMeLength, setAboutMeLength] = useState(0);
 

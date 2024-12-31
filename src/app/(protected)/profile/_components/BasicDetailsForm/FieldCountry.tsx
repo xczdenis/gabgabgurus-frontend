@@ -15,7 +15,7 @@ export type TProps<T extends IFieldValues> = {
   formik: FormikProps<T>;
 };
 
-export const FieldCountry = <T extends IFieldValues>(props: TProps<T>): React.ReactElement => {
+export const FieldCountry = <T extends IFieldValues>(props: TProps<T>): React.ReactElement<any> => {
   const { userCountry, formik } = props;
   const [selectedCountry, setSelectedCountry] = useState(userCountry);
   const { countries } = useCountries();

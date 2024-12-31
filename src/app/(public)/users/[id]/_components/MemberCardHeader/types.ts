@@ -1,6 +1,6 @@
 export type TOwnProps = {
   header: string;
-  icon: React.ReactElement;
+  icon: React.ReactElement<any>;
   color?: 'indigo' | 'success';
 };
 
