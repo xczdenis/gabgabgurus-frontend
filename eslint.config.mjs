@@ -17,7 +17,7 @@ const compat = new FlatCompat({
   allConfig: js.configs.all,
 });
 
-export default [
+const eslintConfig = [
   {
     ignores: ['dist', 'coverage', '.next', '.local', '**/README.md'],
   },
@@ -87,3 +87,5 @@ export default [
     },
   },
 ];
+
+export default eslintConfig;
