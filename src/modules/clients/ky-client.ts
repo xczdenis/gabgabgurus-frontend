@@ -63,7 +63,7 @@ export class KyClient {
   private async _setCookieAndCSRFHeaderOnServer(request: Request) {
     if (isServer()) {
       const { cookies } = await import('next/headers');
-      const cookieStore = cookies();
+      const cookieStore = await cookies();
       request.headers.set('Cookie', cookieStore.toString());
       const csrfToken = cookieStore.get(CSRF_COOKIE_NAME);
       this._setCSRFHeader(request, csrfToken?.name);

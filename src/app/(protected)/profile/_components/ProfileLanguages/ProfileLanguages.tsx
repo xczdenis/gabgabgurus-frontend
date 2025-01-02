@@ -6,7 +6,7 @@ import { TLanguage, TLanguageLevel } from '@/lib/types/refs';
 import { TUserLanguage } from '@/lib/types/user';
 import { showToastError } from '@/lib/utils/show-toast-error';
 import { userService } from '@/modules/services';
-import { Card, CardContent, Stack, Typography, Unstable_Grid2 as Grid } from '@mui/material';
+import { Card, CardContent, Stack, Typography, Grid2 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { LanguagesAddButton } from './LanguagesAddButton';
@@ -38,7 +38,7 @@ const ProfileLanguages = (props: TProps) => {
       }
       setUserLanguages((prevState) => [...prevState, { language: language, languageLevel: languageLevel }]);
       toast.success('New language added successfully!', { icon: '👏' });
-    } catch (err) {
+    } catch {
       showToastError();
     }
   };
@@ -52,7 +52,7 @@ const ProfileLanguages = (props: TProps) => {
         return updatedLanguages;
       });
       toast.success('Language level updated successfully!', { icon: '👏' });
-    } catch (err) {
+    } catch {
       showToastError();
     }
   };
@@ -84,7 +84,7 @@ const ProfileLanguages = (props: TProps) => {
       }
       setUserLanguages((prevState) => prevState.filter((lang) => lang.language !== language));
       toast.success('Language removed');
-    } catch (err) {
+    } catch {
       showToastError();
     }
   };
@@ -93,16 +93,16 @@ const ProfileLanguages = (props: TProps) => {
     <Stack spacing={4}>
       <Card>
         <CardContent>
-          <Grid container spacing={3}>
-            <Grid xs={12} md={4}>
+          <Grid2 container spacing={3}>
+            <Grid2 size={{ xs: 12, md: 4 }}>
               <Stack spacing={1}>
                 <Typography variant="h6">{title}</Typography>
                 <Typography color="text.secondary" variant="body2">
                   {subtitle}
                 </Typography>
               </Stack>
-            </Grid>
-            <Grid xs={12} sm={12} md={8}>
+            </Grid2>
+            <Grid2 size={{ xs: 12, sm: 12, md: 8 }}>
               <Stack spacing={3}>
                 <LanguagesAutocompleteInput onChange={setSelectedLanguage} />
                 <LanguagesLevelsRadioGroup onChangeLevel={setSelectedLevel} levelsGroupDisabled={!selectedLanguage} />
@@ -114,8 +114,8 @@ const ProfileLanguages = (props: TProps) => {
                 selectedLevel={selectedLevel}
               />
               <UserLanguages mt={3} languages={userLanguages} header="Languages" removeHandler={handleRemoveLanguage} />
-            </Grid>
-          </Grid>
+            </Grid2>
+          </Grid2>
         </CardContent>
       </Card>
     </Stack>

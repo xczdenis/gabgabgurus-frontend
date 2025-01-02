@@ -5,7 +5,7 @@ import { ChannelList } from './_components/ChannelList';
 import { TProps } from './types';
 
 export default async function Chats(props: TProps) {
-  const { page = 1 } = props.searchParams;
+  const { page = 1 } = (await props.searchParams);
   const pageInt = Number(page);
 
   return (

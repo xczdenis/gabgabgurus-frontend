@@ -5,7 +5,7 @@ import { ChannelRoom } from './_components/ChannelRoom';
 import { TProps } from './types';
 
 export default async function ChatPage(props: TProps) {
-  const { memberId } = props.params;
+  const { memberId } = (await props.params);
   const memberIdInt = parseInt(memberId);
 
   if (!memberIdInt) {

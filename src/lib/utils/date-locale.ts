@@ -1,5 +1,5 @@
 import { Locale } from 'date-fns';
-import locale from 'date-fns/locale/en-US';
+import { enUS } from 'date-fns/locale';
 
 interface IFormatDistanceOptions {
   addSuffix?: boolean;
@@ -26,7 +26,7 @@ const formatDistanceLocale = {
 };
 
 export const customLocale: Locale = {
-  ...locale,
+  ...enUS,
   formatDistance: (token: keyof typeof formatDistanceLocale, count: number, options?: IFormatDistanceOptions) => {
     options = options || {};
 

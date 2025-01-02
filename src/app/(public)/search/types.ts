@@ -8,5 +8,5 @@ export type TSearchParams = {
 } & TPageNumberPaginationParams;
 
 export type TProps = {
-  searchParams: TSearchParams;
+  searchParams: Promise<TSearchParams>;
 };

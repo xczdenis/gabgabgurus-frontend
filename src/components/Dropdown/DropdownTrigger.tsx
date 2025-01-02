@@ -2,7 +2,7 @@ import { cloneElement, useContext } from 'react';
 import { DropdownContext } from './DropdownContext';
 
 type TOwnProps = {
-  children: React.ReactElement;
+  children: React.ReactElement<any>;
 };
 
 type TProps = TOwnProps;

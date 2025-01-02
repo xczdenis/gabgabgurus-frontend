@@ -14,22 +14,25 @@ const EmotionCache = (props: TProps) => {
     const cache = createCache(options);
     cache.compat = true;
     const prevInsert = cache.insert;
-    let inserted: { name: string; isGlobal: boolean }[] = [];
+
+    const insertedMap = new Map<string, { name: string; isGlobal: boolean }>();
     cache.insert = (...args) => {
       const [selector, serialized] = args;
       if (cache.inserted[serialized.name] === undefined) {
-        inserted.push({
+        insertedMap.set(serialized.name, {
           name: serialized.name,
           isGlobal: !selector,
         });
       }
       return prevInsert(...args);
     };
+
     const flush = () => {
-      const prevInserted = inserted;
-      inserted = [];
-      return prevInserted;
+      const flushed = Array.from(insertedMap.values());
+      insertedMap.clear();
+      return flushed;
     };
+
     return { cache, flush };
   });
 
@@ -49,7 +52,7 @@ const EmotionCache = (props: TProps) => {
     inserted.forEach(({ name, isGlobal }) => {
       const style = registry.cache.inserted[name];
 
-      if (typeof style !== 'boolean') {
+      if (typeof style === 'string') {
         if (isGlobal) {
           globals.push({ name, style });
         } else {
@@ -65,17 +68,10 @@ const EmotionCache = (props: TProps) => {
           <style
             key={name}
             data-emotion={`${registry.cache.key}-global ${name}`}
-            // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{ __html: style }}
           />
         ))}
-        {styles && (
-          <style
-            data-emotion={dataEmotionAttribute}
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{ __html: styles }}
-          />
-        )}
+        {styles && <style data-emotion={dataEmotionAttribute} dangerouslySetInnerHTML={{ __html: styles }} />}
       </React.Fragment>
     );
   });

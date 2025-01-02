@@ -9,7 +9,7 @@ import { AiOutlineMenu } from 'react-icons/ai';
 import { ChannelRoomToolbarMenuPopover } from './ChannelRoomToolbarMenuPopover';
 
 type TProps = {
-  moreRef?: React.RefObject<HTMLButtonElement>;
+  moreRef?: React.RefObject<HTMLButtonElement | null>;
   memberProfile: TMemberProfile | null;
 };
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { useAppSelector } from '@/lib/hooks/store';
-import { Alert, Unstable_Grid2 as Grid } from '@mui/material';
+import { Alert, Grid2 } from '@mui/material';
 
 export const ChannelRoomBlockAlert = () => {
   const isBlocked = useAppSelector((state) => state.chat.isBlocked);
@@ -11,12 +11,12 @@ export const ChannelRoomBlockAlert = () => {
   }
 
   return (
-    <Grid container justifyContent="center" py={2}>
-      <Grid xs="auto">
+    <Grid2 container justifyContent="center" py={2}>
+      <Grid2 size={{ xs: 'auto' }}>
         <Alert variant="filled" severity="warning">
           This chat is blocked
         </Alert>
-      </Grid>
-    </Grid>
+      </Grid2>
+    </Grid2>
   );
 };

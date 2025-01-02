@@ -8,8 +8,8 @@ import { ChannelMessageMemo } from '../../ChannelMessage';
 type TProps = {
   userId: TDefaultId;
   messages: TMessage[];
-  lastMessageRef: React.RefObject<HTMLDivElement>;
-  messagesContainerRef: React.RefObject<HTMLDivElement>;
+  lastMessageRef: React.RefObject<HTMLDivElement | null>;
+  messagesContainerRef: React.RefObject<HTMLDivElement | null>;
 };
 
 export const CFMessages = (props: TProps) => {
