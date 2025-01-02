@@ -9,11 +9,11 @@ import { mockAdmin, mockAdminResponse } from '@/mocks/data/users';
 import { subHours, subMinutes } from 'date-fns';
 
 const now = new Date();
-const nowTs = now.getTime();
-const twoHoursAgo = subHours(now, 2).getTime();
-const oneHourAgo = subHours(now, 1).getTime();
-const sixHoursAgo = subHours(now, 6).getTime();
-const fifteenMinutesAgo = subMinutes(now, 15).getTime();
+const nowTs = now.getTime() / 1000;
+const twoHoursAgo = subHours(now, 2).getTime() / 1000;
+const oneHourAgo = subHours(now, 1).getTime() / 1000;
+const sixHoursAgo = subHours(now, 6).getTime() / 1000;
+const fifteenMinutesAgo = subMinutes(now, 15).getTime() / 1000;
 
 const makeMember = (params: Partial<TMemberProfileResponse>): TMemberProfileResponse => {
   return {
@@ -85,7 +85,7 @@ const membersData: Partial<TMemberProfileResponse>[] = [
   {
     id: 9,
     avatar: '/assets/avatars/avatar18.png',
-    last_activity: nowTs,
+    last_activity: fifteenMinutesAgo,
     first_name: 'Siegbert Gottfried',
   },
   {
@@ -97,7 +97,7 @@ const membersData: Partial<TMemberProfileResponse>[] = [
   {
     id: 11,
     avatar: '/assets/avatars/avatar13.png',
-    last_activity: nowTs,
+    last_activity: oneHourAgo,
     first_name: 'Nasimiyu Danai',
   },
 ];
