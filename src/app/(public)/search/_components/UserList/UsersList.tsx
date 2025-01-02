@@ -1,6 +1,5 @@
 import { BasePagination } from '@/components/BasePagination';
-import { Stack } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
+import { Grid2, Stack } from '@mui/material';
 import { UserListCard } from '../UserListCard';
 import { TProps } from './types';
 
@@ -12,9 +11,9 @@ const UsersList = (props: TProps) => {
     <>
       <Stack spacing={2}>
         {users.map((user) => (
-          <Grid key={user.id} xs={12} md={4}>
+          <Grid2 key={user.id} size={{ xs: 12, md: 4 }}>
             <UserListCard user={user} />
-          </Grid>
+          </Grid2>
         ))}
       </Stack>
       <BasePagination currentPage={page} totalPages={pages} />

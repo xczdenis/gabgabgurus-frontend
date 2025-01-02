@@ -1,6 +1,6 @@
 import { UserHobbies } from '@/components/UserHobbies';
 import { UserLanguages } from '@/components/UserLanguages';
-import { Card, CardContent, Divider, Unstable_Grid2 as Grid } from '@mui/material';
+import { Card, CardContent, Divider, Grid2 } from '@mui/material';
 import { UserAboutMe } from '../UserAboutMe';
 import { UserInfo } from '../UserInfo';
 import { TProps } from './types';
@@ -10,11 +10,11 @@ const UserListCard = (props: TProps) => {
 
   return (
     <Card sx={{ p: { xs: 1, lg: 3 } }}>
-      <Grid spacing={2} container>
-        <Grid xs={12} md={3}>
+      <Grid2 spacing={2} container>
+        <Grid2 size={{ xs: 12, md: 3 }}>
           <UserInfo user={user} />
-        </Grid>
-        <Grid xs={12} md={9}>
+        </Grid2>
+        <Grid2 size={{ xs: 12, md: 9 }}>
           <Card variant="outlined">
             <CardContent>
               <UserLanguages header="Speaks" languages={user.speaks} mb={2} />
@@ -24,8 +24,8 @@ const UserListCard = (props: TProps) => {
               <UserHobbies hobbies={user.hobbies} />
             </CardContent>
           </Card>
-        </Grid>
-      </Grid>
+        </Grid2>
+      </Grid2>
     </Card>
   );
 };
