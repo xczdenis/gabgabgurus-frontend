@@ -2,7 +2,6 @@
 
 import { useAppSelector } from '@/lib/hooks/store';
 import { Alert, Grid2 } from '@mui/material';
-import { auto } from '@popperjs/core';
 
 export const ChannelRoomBlockAlert = () => {
   const isBlocked = useAppSelector((state) => state.chat.isBlocked);

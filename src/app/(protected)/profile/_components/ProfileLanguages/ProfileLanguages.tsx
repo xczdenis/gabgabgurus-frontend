@@ -38,7 +38,7 @@ const ProfileLanguages = (props: TProps) => {
       }
       setUserLanguages((prevState) => [...prevState, { language: language, languageLevel: languageLevel }]);
       toast.success('New language added successfully!', { icon: '👏' });
-    } catch (err) {
+    } catch {
       showToastError();
     }
   };
@@ -52,7 +52,7 @@ const ProfileLanguages = (props: TProps) => {
         return updatedLanguages;
       });
       toast.success('Language level updated successfully!', { icon: '👏' });
-    } catch (err) {
+    } catch {
       showToastError();
     }
   };
@@ -84,7 +84,7 @@ const ProfileLanguages = (props: TProps) => {
       }
       setUserLanguages((prevState) => prevState.filter((lang) => lang.language !== language));
       toast.success('Language removed');
-    } catch (err) {
+    } catch {
       showToastError();
     }
   };
